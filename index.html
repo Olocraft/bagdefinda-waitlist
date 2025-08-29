@@ -849,6 +849,11 @@ class GoogleSheetsEmailCollector {
         // Hide loading
         loading.classList.remove('active');
 
+        // Add this for testing
+        if (window.location.hostname === 'localhost') {
+            console.log('Testing mode - emails will still save to sheets');
+        }
+
         // Reset form after delay
         setTimeout(() => {
             btnText.style.display = 'inline';
