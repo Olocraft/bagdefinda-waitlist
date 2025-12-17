@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badgefinda Marketplace - Buy Tickets</title>
+    <link rel="icon" type="image/png" href="1-removebg-preview.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Copying styles from index.html */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            border-bottom: 1px solid #f1c40f;
+            border-radius: 0 0 24px 24px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 24px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo {
+            width: 54px;
+            height: 54px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a1a;
+            letter-spacing: -0.5px;
+        }
+
+        /* Marketplace Specific Styles */
+        .marketplace {
+            padding: 140px 0 100px;
+            min-height: 80vh;
+        }
+
+        .marketplace-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .marketplace-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #1a1a1a;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .marketplace-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            margin-bottom: 48px;
+            color: #666;
+            font-weight: 300;
+        }
+
+        .ticket-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .ticket-card {
+            background: #ffffff;
+            border: 1px solid #eee;
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .ticket-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+            border-color: #f1c40f;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #f1c40f 0%, #f8e822 100%);
+            padding: 24px;
+            position: relative;
+        }
+
+        .team-badge {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 12px;
+        }
+
+        .match-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .match-date {
+            font-size: 0.875rem;
+            color: rgba(26, 26, 26, 0.7);
+            font-weight: 500;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        .venue {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .price-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .buy-btn {
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .buy-btn:hover {
+            background: #f1c40f;
+            color: #1a1a1a;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 48px 0 32px;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 24px;
+            transition: all 0.3s ease;
+            font-size: 1.125rem;
+            border: 2px solid transparent;
+        }
+
+        .social-link:hover {
+            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+            color: #1a1a1a;
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 24px rgba(241, 196, 15, 0.3);
+        }
+
+        .footer-text {
+            font-size: 0.875rem;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            .marketplace-title {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo-container">
+                <img src="1-removebg-preview.png" alt="Badgefinda" class="logo">
+                <span class="brand-name">Badgefinda</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Marketplace Section -->
+    <section class="marketplace">
+        <div class="container">
+            <div class="marketplace-header">
+                <h1 class="marketplace-title">Ticket Marketplace</h1>
+                <p class="marketplace-subtitle">Browse tickets for upcoming matches of your favorite teams.</p>
+            </div>
+
+            <div class="ticket-grid" id="ticketGrid">
+                <!-- Tickets will be injected here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="social-links">
+                <a href="#" class="social-link" aria-label="Twitter">𝕏</a>
+                <a href="#" class="social-link" aria-label="Instagram">📷</a>
+                <a href="#" class="social-link" aria-label="TikTok">🎵</a>
+            </div>
+            <div class="footer-text">
+                © 2025 Badgefinda — Built for the fans
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const tickets = [
+            { team: 'Arsenal', opponent: 'Tottenham', date: 'Sat, 24 Feb • 15:00', venue: 'Emirates Stadium', price: '£120', icon: '🔴' },
+            { team: 'Liverpool', opponent: 'Man City', date: 'Sun, 25 Feb • 16:30', venue: 'Anfield', price: '£150', icon: '🔴' },
+            { team: 'Man United', opponent: 'Chelsea', date: 'Sat, 02 Mar • 12:30', venue: 'Old Trafford', price: '£95', icon: '👹' },
+            { team: 'Barcelona', opponent: 'Real Madrid', date: 'Sun, 03 Mar • 20:00', venue: 'Camp Nou', price: '€250', icon: '🔵' },
+            { team: 'Bayern Munich', opponent: 'Dortmund', date: 'Sat, 09 Mar • 18:30', venue: 'Allianz Arena', price: '€110', icon: '🔴' },
+            { team: 'PSG', opponent: 'Marseille', date: 'Sun, 10 Mar • 21:00', venue: 'Parc des Princes', price: '€130', icon: '🗼' },
+            { team: 'AC Milan', opponent: 'Inter', date: 'Sat, 16 Mar • 20:45', venue: 'San Siro', price: '€140', icon: '⚫' },
+            { team: 'Juventus', opponent: 'Napoli', date: 'Sun, 17 Mar • 18:00', venue: 'Allianz Stadium', price: '€90', icon: '🦓' }
+        ];
+
+        const ticketGrid = document.getElementById('ticketGrid');
+
+        tickets.forEach(ticket => {
+            const card = document.createElement('div');
+            card.className = 'ticket-card';
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="team-badge">${ticket.icon}</div>
+                    <div class="match-title">${ticket.team} vs ${ticket.opponent}</div>
+                    <div class="match-date">${ticket.date}</div>
+                </div>
+                <div class="card-body">
+                    <div class="venue">📍 ${ticket.venue}</div>
+                    <div class="price-section">
+                        <span class="price">${ticket.price}</span>
+                        <button class="buy-btn" onclick="alert('Ticket purchased for ${ticket.team}!')">Buy Now</button>
+                    </div>
+                </div>
+            `;
+            ticketGrid.appendChild(card);
+        });
+    </script>
+</body>
+</html>

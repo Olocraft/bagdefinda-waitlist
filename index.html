@@ -602,6 +602,88 @@
                 transition-duration: 0.01ms !important;
             }
         }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 40px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 24px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .modal-content h2 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        .modal-content p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .close-modal {
+            color: #aaa;
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #1a1a1a;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+            color: #1a1a1a;
+            padding: 16px 32px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 12px rgba(241, 196, 15, 0.3);
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(241, 196, 15, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -727,6 +809,16 @@
         </div>
     </section>
 
+    <!-- Modal -->
+    <div id="testProductModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Test the Product</h2>
+            <p>Go online and see our marketplace where you can buy your ticket to your favorite team.</p>
+            <a href="marketplace.html" class="modal-btn">Go to Marketplace</a>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -746,8 +838,7 @@
 // Replace the existing script section in your HTML with this code
 
 // Replace this with your actual Google Apps Script Web App URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec';
 
 // Email collection system that sends to Google Sheets
 class GoogleSheetsEmailCollector {
@@ -825,13 +916,22 @@ class GoogleSheetsEmailCollector {
             // Show appropriate success message
             if (result.isDuplicate) {
                 successMessage.innerHTML = '✓ You\'re already on our list! Thanks for your enthusiasm!';
-            } else if (result.isOffline) {
-                successMessage.innerHTML = '✓ Email saved! We\'ll sync it when connection is restored.';
+                successMessage.classList.add('show');
             } else {
-                successMessage.innerHTML = '✓ Perfect! You\'re now on our waitlist for early access!';
+                if (result.isOffline) {
+                    successMessage.innerHTML = '✓ Email saved! We\'ll sync it when connection is restored.';
+                } else {
+                    successMessage.innerHTML = '✓ Perfect! You\'re now on our waitlist for early access!';
+                }
+                successMessage.classList.add('show');
+
+                // Show the modal for new signups
+                const modal = document.getElementById('testProductModal');
+                if (modal) {
+                    modal.classList.add('show');
+                }
             }
 
-            successMessage.classList.add('show');
             emailInput.value = '';
 
             // Add celebration effect for new emails
@@ -955,13 +1055,28 @@ document.head.appendChild(style);
 // Initialize everything when DOM loads
 document.addEventListener('DOMContentLoaded', () => {
     // Check if Google Script URL is configured
-    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-') {
+    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec') {
         console.warn('⚠️ Please update GOOGLE_SCRIPT_URL with your actual Google Apps Script URL');
     }
     
     new GoogleSheetsEmailCollector();
     animateCounters();
+
+    // Modal Close Logic
+    const modal = document.getElementById('testProductModal');
+    const closeBtn = document.querySelector('.close-modal');
+
+    if (closeBtn) {
+        closeBtn.onclick = function() {
+            modal.classList.remove('show');
+        }
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.classList.remove('show');
+        }
+    }
 
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
