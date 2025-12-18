@@ -853,21 +853,20 @@
     </footer>
 
     <script>
-        // Updated JavaScript for the landing page to connect with Google Sheets
+// Updated JavaScript for the landing page to connect with Backend
 // Replace the existing script section in your HTML with this code
 
-// Replace this with your actual Google Apps Script Web App URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec';
+const API_URL = '/api/waitlist';
 
-// Email collection system that sends to Google Sheets
-class GoogleSheetsEmailCollector {
+// Email collection system that sends to Backend
+class WaitlistCollector {
     constructor() {
         this.init();
     }
 
-    async sendToGoogleSheets(email, source = 'hero') {
+    async sendToBackend(email, source = 'hero') {
         try {
-            const response = await fetch(GOOGLE_SCRIPT_URL, {
+            const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -883,13 +882,13 @@ class GoogleSheetsEmailCollector {
             const result = await response.json();
             
             if (result.success) {
-                console.log('✅ Email saved to Google Sheets:', result.message);
+                console.log('✅ Email saved to Database');
                 return { success: true, isDuplicate: result.isDuplicate };
             } else {
                 throw new Error(result.message);
             }
         } catch (error) {
-            console.error('❌ Error saving to Google Sheets:', error);
+            console.error('❌ Error saving to Database:', error);
             // Fallback: save to localStorage
             this.saveToLocalStorage(email);
             return { success: true, isOffline: true };
@@ -929,8 +928,8 @@ class GoogleSheetsEmailCollector {
         submitBtn.disabled = true;
 
         try {
-            // Send to Google Sheets
-            const result = await this.sendToGoogleSheets(email, source);
+            // Send to Backend
+            const result = await this.sendToBackend(email, source);
 
             // Show appropriate success message
             if (result.isDuplicate) {
@@ -967,11 +966,6 @@ class GoogleSheetsEmailCollector {
 
         // Hide loading
         loading.classList.remove('active');
-
-        // Add this for testing
-        if (window.location.hostname === 'localhost') {
-            console.log('Testing mode - emails will still save to sheets');
-        }
 
         // Reset form after delay
         setTimeout(() => {
@@ -1073,12 +1067,7 @@ document.head.appendChild(style);
 
 // Initialize everything when DOM loads
 document.addEventListener('DOMContentLoaded', () => {
-    // Check if Google Script URL is configured
-    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec') {
-        console.warn('⚠️ Please update GOOGLE_SCRIPT_URL with your actual Google Apps Script URL');
-    }
-    
-    new GoogleSheetsEmailCollector();
+    new WaitlistCollector();
     animateCounters();
 
     // Modal Close Logic
