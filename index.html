@@ -52,14 +52,17 @@
         .nav {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             padding: 20px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .logo-container {
             display: flex;
             align-items: center;
             gap: 12px;
+            text-decoration: none;
         }
 
         .logo {
@@ -77,6 +80,21 @@
             font-weight: 600;
             color: #1a1a1a;
             letter-spacing: -0.5px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #1a1a1a;
+            font-weight: 500;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(241, 196, 15, 0.2);
+            color: #1a1a1a;
         }
 
         /* Hero Section */
@@ -694,6 +712,7 @@
                 <img src="1-removebg-preview.png" alt="Badgefinda" class="logo">
                 <span class="brand-name">Badgefinda</span>
             </div>
+            <a href="marketplace.html" class="nav-link">Marketplace</a>
         </nav>
     </header>
 
