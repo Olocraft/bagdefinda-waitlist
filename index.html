@@ -141,61 +141,28 @@
         }
 
         /* Minimalist Email Form */
-        .email-signup {
-            max-width: 400px;
+        .cta-container {
             margin: 0 auto 80px;
-            position: relative;
+            text-align: center;
         }
 
-        .email-form {
-            display: flex;
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px solid #f1c40f;
-            border-radius: 60px;
-            padding: 6px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(241, 196, 15, 0.15);
-            backdrop-filter: blur(10px);
-        }
-
-        .email-form:focus-within {
-            border-color: #f8e822;
-            box-shadow: 0 12px 48px rgba(241, 196, 15, 0.25);
-            transform: translateY(-2px);
-        }
-
-        .email-input {
-            flex: 1;
-            padding: 16px 24px;
-            border: none;
-            background: transparent;
-            font-size: 16px;
-            outline: none;
-            color: #1a1a1a;
-        }
-
-        .email-input::placeholder {
-            color: #999;
-        }
-
-        .submit-btn {
+        .primary-btn {
+            display: inline-block;
             background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
             color: white;
-            border: none;
+            text-decoration: none;
             border-radius: 54px;
-            padding: 16px 32px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
+            padding: 20px 48px;
+            font-size: 18px;
+            font-weight: 600;
             transition: all 0.3s ease;
-            white-space: nowrap;
             box-shadow: 0 4px 16px rgba(26, 26, 26, 0.2);
         }
 
-        .submit-btn:hover {
+        .primary-btn:hover {
             background: linear-gradient(135deg, #333 0%, #555 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(26, 26, 26, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(26, 26, 26, 0.3);
         }
 
         .submit-btn:active {
@@ -407,6 +374,7 @@
             right: 0;
             bottom: 0;
             background: linear-gradient(135deg, rgba(241, 196, 15, 0.05) 0%, transparent 100%);
+            pointer-events: none;
         }
 
         .final-cta h2 {
@@ -423,35 +391,23 @@
             font-weight: 300;
         }
 
-        .final-cta .email-form {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #f1c40f;
-            backdrop-filter: blur(20px);
-        }
-
-        .final-cta .email-form:focus-within {
-            border-color: #f39c12;
-            box-shadow: 0 12px 48px rgba(241, 196, 15, 0.2);
-        }
-
-        .final-cta .email-input {
-            color: white;
-        }
-
-        .final-cta .email-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .final-cta .submit-btn {
+        .secondary-btn {
+            display: inline-block;
             background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
             color: #1a1a1a;
+            text-decoration: none;
+            border-radius: 54px;
+            padding: 20px 48px;
+            font-size: 18px;
             font-weight: 600;
+            transition: all 0.3s ease;
             box-shadow: 0 4px 16px rgba(241, 196, 15, 0.3);
         }
 
-        .final-cta .submit-btn:hover {
+        .secondary-btn:hover {
             background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
-            box-shadow: 0 8px 24px rgba(241, 196, 15, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(241, 196, 15, 0.4);
         }
 
         /* Footer */
@@ -621,87 +577,6 @@
             }
         }
 
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.show {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 40px;
-            border: 1px solid #888;
-            width: 90%;
-            max-width: 500px;
-            border-radius: 24px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-        }
-
-        .modal-content h2 {
-            font-size: 2rem;
-            margin-bottom: 16px;
-            color: #1a1a1a;
-        }
-
-        .modal-content p {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 32px;
-            line-height: 1.6;
-        }
-
-        .close-modal {
-            color: #aaa;
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .close-modal:hover,
-        .close-modal:focus {
-            color: #1a1a1a;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .modal-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
-            color: #1a1a1a;
-            padding: 16px 32px;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 12px rgba(241, 196, 15, 0.3);
-        }
-
-        .modal-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(241, 196, 15, 0.4);
-        }
     </style>
 </head>
 <body>
@@ -723,23 +598,8 @@
                 <h1>Your Team. Your Game. Your Badge.</h1>
                 <p>The simplest way to get tickets, play fantasy, and connect with your team.</p>
                 
-                <div class="email-signup">
-                    <form id="emailForm" class="email-form">
-                        <input 
-                            type="email" 
-                            class="email-input" 
-                            placeholder="Enter your email" 
-                            required
-                            id="emailInput"
-                        >
-                        <button type="submit" class="submit-btn" id="submitBtn">
-                            <span class="btn-text">Get Early Access</span>
-                            <div class="loading" id="loading"></div>
-                        </button>
-                    </form>
-                    <div class="success-message" id="successMessage">
-                        ✓ You're on the list! We'll notify you when Badgefinda launches.
-                    </div>
+                <div class="cta-container">
+                    <a href="marketplace.html" class="primary-btn">Browse Tickets</a>
                 </div>
             </div>
         </div>
@@ -804,39 +664,14 @@
     <!-- Final CTA -->
     <section class="final-cta">
         <div class="container">
-            <h2>Join the waitlist</h2>
-            <p>Be the first to experience Badgefinda when we launch</p>
+            <h2>Start your journey</h2>
+            <p>Join thousands of fans finding the best tickets today.</p>
             
-            <div class="email-signup">
-                <form id="emailForm2" class="email-form">
-                    <input 
-                        type="email" 
-                        class="email-input" 
-                        placeholder="Your email address" 
-                        required
-                        id="emailInput2"
-                    >
-                    <button type="submit" class="submit-btn" id="submitBtn2">
-                        <span class="btn-text">Join Waitlist</span>
-                        <div class="loading" id="loading2"></div>
-                    </button>
-                </form>
-                <div class="success-message" id="successMessage2">
-                    ✓ Perfect! You're all set for early access.
-                </div>
+            <div class="cta-container">
+                <a href="marketplace.html" class="secondary-btn">Go to Marketplace</a>
             </div>
         </div>
     </section>
-
-    <!-- Modal -->
-    <div id="testProductModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Test the Product</h2>
-            <p>Go online and see our marketplace where you can buy your ticket to your favorite team.</p>
-            <a href="marketplace.html" class="modal-btn">Go to Marketplace</a>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -853,174 +688,6 @@
     </footer>
 
     <script>
-// Updated JavaScript for the landing page to connect with Backend
-// Replace the existing script section in your HTML with this code
-
-const API_URL = '/api/waitlist';
-
-// Email collection system that sends to Backend
-class WaitlistCollector {
-    constructor() {
-        this.init();
-    }
-
-    async sendToBackend(email, source = 'hero') {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: email,
-                    source: source,
-                    timestamp: new Date().toISOString(),
-                    website: window.location.hostname
-                })
-            });
-
-            const result = await response.json();
-            
-            if (result.success) {
-                console.log('✅ Email saved to Database');
-                return { success: true, isDuplicate: result.isDuplicate };
-            } else {
-                throw new Error(result.message);
-            }
-        } catch (error) {
-            console.error('❌ Error saving to Database:', error);
-            // Fallback: save to localStorage
-            this.saveToLocalStorage(email);
-            return { success: true, isOffline: true };
-        }
-    }
-
-    saveToLocalStorage(email) {
-        try {
-            const emails = JSON.parse(localStorage.getItem('badgefinda_emails') || '[]');
-            if (!emails.includes(email)) {
-                emails.push({
-                    email: email,
-                    timestamp: new Date().toISOString(),
-                    source: 'offline'
-                });
-                localStorage.setItem('badgefinda_emails', JSON.stringify(emails));
-            }
-        } catch (error) {
-            console.log('Local storage not available');
-        }
-    }
-
-    async handleSubmission(email, form) {
-        const submitBtn = form.querySelector('.submit-btn');
-        const btnText = form.querySelector('.btn-text');
-        const loading = form.querySelector('.loading');
-        const successMessage = form.parentElement.querySelector('.success-message');
-        const emailInput = form.querySelector('.email-input');
-
-        // Determine source based on form location
-        let source = 'hero';
-        if (form.id === 'emailForm2') source = 'final-cta';
-
-        // Show loading
-        btnText.style.display = 'none';
-        loading.classList.add('active');
-        submitBtn.disabled = true;
-
-        try {
-            // Send to Backend
-            const result = await this.sendToBackend(email, source);
-
-            // Show appropriate success message
-            if (result.isDuplicate) {
-                successMessage.innerHTML = '✓ You\'re already on our list! Thanks for your enthusiasm!';
-                successMessage.classList.add('show');
-            } else {
-                if (result.isOffline) {
-                    successMessage.innerHTML = '✓ Email saved! We\'ll sync it when connection is restored.';
-                } else {
-                    successMessage.innerHTML = '✓ Perfect! You\'re now on our waitlist for early access!';
-                }
-                successMessage.classList.add('show');
-
-                // Show the modal for new signups
-                const modal = document.getElementById('testProductModal');
-                if (modal) {
-                    modal.classList.add('show');
-                }
-            }
-
-            emailInput.value = '';
-
-            // Add celebration effect for new emails
-            if (!result.isDuplicate) {
-                this.createCelebration();
-            }
-
-        } catch (error) {
-            successMessage.innerHTML = '⚠️ Something went wrong. Please try again.';
-            successMessage.style.background = '#ffe6e6';
-            successMessage.style.borderColor = '#ff6b6b';
-            successMessage.classList.add('show');
-        }
-
-        // Hide loading
-        loading.classList.remove('active');
-
-        // Reset form after delay
-        setTimeout(() => {
-            btnText.style.display = 'inline';
-            successMessage.classList.remove('show');
-            successMessage.style.background = '';
-            successMessage.style.borderColor = '';
-            submitBtn.disabled = false;
-        }, 4000);
-    }
-
-    createCelebration() {
-        // Create simple celebration animation
-        const colors = ['#f1c40f', '#f39c12', '#e74c3c', '#3498db'];
-        
-        for (let i = 0; i < 12; i++) {
-            const confetti = document.createElement('div');
-            confetti.style.position = 'fixed';
-            confetti.style.left = Math.random() * 100 + '%';
-            confetti.style.top = '-10px';
-            confetti.style.width = '8px';
-            confetti.style.height = '8px';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.borderRadius = '50%';
-            confetti.style.pointerEvents = 'none';
-            confetti.style.zIndex = '10000';
-            confetti.style.animation = `confettiFall ${2 + Math.random() * 2}s linear forwards`;
-            
-            document.body.appendChild(confetti);
-            
-            setTimeout(() => confetti.remove(), 4000);
-        }
-    }
-
-    init() {
-        const forms = document.querySelectorAll('#emailForm, #emailForm2');
-        forms.forEach(form => {
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const email = form.querySelector('.email-input').value.trim();
-                if (email && this.validateEmail(email)) {
-                    await this.handleSubmission(email, form);
-                } else {
-                    alert('Please enter a valid email address');
-                }
-            });
-        });
-    }
-
-    validateEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-}
-
 // Counter animation
 function animateCounters() {
     const counters = document.querySelectorAll('.stat-number');
@@ -1067,24 +734,7 @@ document.head.appendChild(style);
 
 // Initialize everything when DOM loads
 document.addEventListener('DOMContentLoaded', () => {
-    new WaitlistCollector();
     animateCounters();
-
-    // Modal Close Logic
-    const modal = document.getElementById('testProductModal');
-    const closeBtn = document.querySelector('.close-modal');
-
-    if (closeBtn) {
-        closeBtn.onclick = function() {
-            modal.classList.remove('show');
-        }
-    }
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.classList.remove('show');
-        }
-    }
 
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
