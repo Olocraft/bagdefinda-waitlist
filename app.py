@@ -3,23 +3,28 @@ import database
 import os
 
 app = Flask(__name__)
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 # Initialize DB on startup
 database.init_db()
 
 @app.route('/')
 def index():
-    return send_from_directory('.', 'index.html')
+    return send_from_directory(BASE_DIR, 'index.html')
 
 @app.route('/marketplace.html')
 @app.route('/marketplace')
 def marketplace():
-    return send_from_directory('.', 'marketplace.html')
+    return send_from_directory(BASE_DIR, 'marketplace.html')
 
 @app.route('/<path:filename>')
 def serve_static(filename):
-    if filename in ['1-removebg-preview.png', 'index.html', 'marketplace.html']:
-        return send_from_directory('.', filename)
+    # Allow serving static files with specific extensions
+    allowed_extensions = {'.png', '.jpg', '.jpeg', '.gif', '.css', '.js', '.ico', '.html'}
+    _, ext = os.path.splitext(filename)
+
+    if ext.lower() in allowed_extensions:
+        return send_from_directory(BASE_DIR, filename)
     return "File not found", 404
 
 @app.route('/api/waitlist', methods=['POST'])
