@@ -30,6 +30,18 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -228,6 +240,12 @@
         .success-message.show {
             display: block;
             animation: fadeIn 0.5s ease;
+        }
+
+        .success-message.error {
+            background: #ffe6e6;
+            border-color: #ff6b6b;
+            color: #c0392b;
         }
 
         @keyframes fadeIn {
@@ -624,6 +642,7 @@
                 
                 <div class="email-signup">
                     <form id="emailForm" class="email-form">
+                        <label for="emailInput" class="visually-hidden">Email address</label>
                         <input 
                             type="email" 
                             class="email-input" 
@@ -708,6 +727,7 @@
             
             <div class="email-signup">
                 <form id="emailForm2" class="email-form">
+                    <label for="emailInput2" class="visually-hidden">Email address</label>
                     <input 
                         type="email" 
                         class="email-input" 
@@ -822,6 +842,9 @@ class GoogleSheetsEmailCollector {
             // Send to Google Sheets
             const result = await this.sendToGoogleSheets(email, source);
 
+            // Clear any error state
+            successMessage.classList.remove('error');
+
             // Show appropriate success message
             if (result.isDuplicate) {
                 successMessage.innerHTML = '✓ You\'re already on our list! Thanks for your enthusiasm!';
@@ -841,8 +864,7 @@ class GoogleSheetsEmailCollector {
 
         } catch (error) {
             successMessage.innerHTML = '⚠️ Something went wrong. Please try again.';
-            successMessage.style.background = '#ffe6e6';
-            successMessage.style.borderColor = '#ff6b6b';
+            successMessage.classList.add('error');
             successMessage.classList.add('show');
         }
 
@@ -858,8 +880,7 @@ class GoogleSheetsEmailCollector {
         setTimeout(() => {
             btnText.style.display = 'inline';
             successMessage.classList.remove('show');
-            successMessage.style.background = '';
-            successMessage.style.borderColor = '';
+            successMessage.classList.remove('error');
             submitBtn.disabled = false;
         }, 4000);
     }
@@ -896,7 +917,10 @@ class GoogleSheetsEmailCollector {
                 if (email && this.validateEmail(email)) {
                     await this.handleSubmission(email, form);
                 } else {
-                    alert('Please enter a valid email address');
+                    const successMessage = form.parentElement.querySelector('.success-message');
+                    successMessage.innerHTML = '⚠️ Please enter a valid email address';
+                    successMessage.classList.add('error');
+                    successMessage.classList.add('show');
                 }
             });
         });
