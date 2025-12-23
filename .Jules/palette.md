@@ -1,0 +1,3 @@
+## 2025-12-23 - Replaced Alert with Inline Validation
+**Learning:** Browser native validation (`type="email"`) often preempts custom JavaScript validation logic, making custom error handling unreachable for standard users unless `novalidate` is used or the input is technically valid but logically invalid. However, replacing `alert()` for fallback validation is still a critical UX improvement for consistency and accessibility.
+**Action:** When implementing custom validation UI, ensure it handles cases that browser validation catches, or accept that it serves as a progressive enhancement for edge cases/older browsers. Always prefer inline feedback over alerts.
