@@ -230,6 +230,18 @@
             animation: fadeIn 0.5s ease;
         }
 
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -623,7 +635,8 @@
                 <p>The simplest way to get tickets, play fantasy, and connect with your team.</p>
                 
                 <div class="email-signup">
-                    <form id="emailForm" class="email-form">
+                    <form id="emailForm" class="email-form" novalidate>
+                        <label for="emailInput" class="visually-hidden">Email address</label>
                         <input 
                             type="email" 
                             class="email-input" 
@@ -707,7 +720,8 @@
             <p>Be the first to experience Badgefinda when we launch</p>
             
             <div class="email-signup">
-                <form id="emailForm2" class="email-form">
+                <form id="emailForm2" class="email-form" novalidate>
+                    <label for="emailInput2" class="visually-hidden">Email address</label>
                     <input 
                         type="email" 
                         class="email-input" 
@@ -746,12 +760,12 @@
 // Replace the existing script section in your HTML with this code
 
 // Replace this with your actual Google Apps Script Web App URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec';
 
 // Email collection system that sends to Google Sheets
 class GoogleSheetsEmailCollector {
     constructor() {
+        this.messageTimeout = null;
         this.init();
     }
 
@@ -813,6 +827,9 @@ class GoogleSheetsEmailCollector {
         let source = 'hero';
         if (form.id === 'emailForm2') source = 'final-cta';
 
+        // Clear any existing timeout
+        if (this.messageTimeout) clearTimeout(this.messageTimeout);
+
         // Show loading
         btnText.style.display = 'none';
         loading.classList.add('active');
@@ -843,6 +860,7 @@ class GoogleSheetsEmailCollector {
             successMessage.innerHTML = '⚠️ Something went wrong. Please try again.';
             successMessage.style.background = '#ffe6e6';
             successMessage.style.borderColor = '#ff6b6b';
+            successMessage.style.color = '#c0392b';
             successMessage.classList.add('show');
         }
 
@@ -855,11 +873,12 @@ class GoogleSheetsEmailCollector {
         }
 
         // Reset form after delay
-        setTimeout(() => {
+        this.messageTimeout = setTimeout(() => {
             btnText.style.display = 'inline';
             successMessage.classList.remove('show');
             successMessage.style.background = '';
             successMessage.style.borderColor = '';
+            successMessage.style.color = '';
             submitBtn.disabled = false;
         }, 4000);
     }
@@ -896,7 +915,23 @@ class GoogleSheetsEmailCollector {
                 if (email && this.validateEmail(email)) {
                     await this.handleSubmission(email, form);
                 } else {
-                    alert('Please enter a valid email address');
+                    const successMessage = form.parentElement.querySelector('.success-message');
+
+                    // Clear any existing timeout
+                    if (this.messageTimeout) clearTimeout(this.messageTimeout);
+
+                    successMessage.innerHTML = '⚠️ Please enter a valid email address';
+                    successMessage.style.background = '#ffe6e6';
+                    successMessage.style.borderColor = '#ff6b6b';
+                    successMessage.style.color = '#c0392b';
+                    successMessage.classList.add('show');
+
+                    this.messageTimeout = setTimeout(() => {
+                        successMessage.classList.remove('show');
+                        successMessage.style.background = '';
+                        successMessage.style.borderColor = '';
+                        successMessage.style.color = '';
+                    }, 3000);
                 }
             });
         });
@@ -955,8 +990,7 @@ document.head.appendChild(style);
 // Initialize everything when DOM loads
 document.addEventListener('DOMContentLoaded', () => {
     // Check if Google Script URL is configured
-    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-') {
+    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec') {
         console.warn('⚠️ Please update GOOGLE_SCRIPT_URL with your actual Google Apps Script URL');
     }
     
