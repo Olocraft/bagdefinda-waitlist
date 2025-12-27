@@ -225,6 +225,12 @@
             box-shadow: 0 4px 16px rgba(241, 196, 15, 0.1);
         }
 
+        .success-message.error {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffebeb 100%);
+            border-color: #ef4444;
+            color: #b91c1c;
+        }
+
         .success-message.show {
             display: block;
             animation: fadeIn 0.5s ease;
@@ -233,6 +239,18 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         /* Features Section - Minimal */
@@ -623,7 +641,8 @@
                 <p>The simplest way to get tickets, play fantasy, and connect with your team.</p>
                 
                 <div class="email-signup">
-                    <form id="emailForm" class="email-form">
+                    <form id="emailForm" class="email-form" novalidate>
+                        <label for="emailInput" class="visually-hidden">Email address</label>
                         <input 
                             type="email" 
                             class="email-input" 
@@ -707,7 +726,8 @@
             <p>Be the first to experience Badgefinda when we launch</p>
             
             <div class="email-signup">
-                <form id="emailForm2" class="email-form">
+                <form id="emailForm2" class="email-form" novalidate>
+                    <label for="emailInput2" class="visually-hidden">Email address</label>
                     <input 
                         type="email" 
                         class="email-input" 
@@ -746,8 +766,7 @@
 // Replace the existing script section in your HTML with this code
 
 // Replace this with your actual Google Apps Script Web App URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec';
 
 // Email collection system that sends to Google Sheets
 class GoogleSheetsEmailCollector {
@@ -892,11 +911,25 @@ class GoogleSheetsEmailCollector {
         forms.forEach(form => {
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const email = form.querySelector('.email-input').value.trim();
+                const emailInput = form.querySelector('.email-input');
+                const email = emailInput.value.trim();
+                const successMessage = form.parentElement.querySelector('.success-message');
+
+                // Reset previous error/success state
+                successMessage.classList.remove('show', 'error');
+
                 if (email && this.validateEmail(email)) {
                     await this.handleSubmission(email, form);
                 } else {
-                    alert('Please enter a valid email address');
+                    // Show inline error
+                    successMessage.innerHTML = '⚠️ Please enter a valid email address';
+                    successMessage.classList.add('error', 'show');
+                    emailInput.focus();
+
+                    // Hide error after 3 seconds
+                    setTimeout(() => {
+                        successMessage.classList.remove('show');
+                    }, 3000);
                 }
             });
         });
@@ -955,8 +988,7 @@ document.head.appendChild(style);
 // Initialize everything when DOM loads
 document.addEventListener('DOMContentLoaded', () => {
     // Check if Google Script URL is configured
-    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-') {
+    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec') {
         console.warn('⚠️ Please update GOOGLE_SCRIPT_URL with your actual Google Apps Script URL');
     }
     
