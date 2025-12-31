@@ -623,7 +623,7 @@
                 <p>The simplest way to get tickets, play fantasy, and connect with your team.</p>
                 
                 <div class="email-signup">
-                    <form id="emailForm" class="email-form">
+                    <form id="emailForm" class="email-form" novalidate>
                         <input 
                             type="email" 
                             class="email-input" 
@@ -707,7 +707,7 @@
             <p>Be the first to experience Badgefinda when we launch</p>
             
             <div class="email-signup">
-                <form id="emailForm2" class="email-form">
+                <form id="emailForm2" class="email-form" novalidate>
                     <input 
                         type="email" 
                         class="email-input" 
@@ -742,12 +742,8 @@
     </footer>
 
     <script>
-        // Updated JavaScript for the landing page to connect with Google Sheets
-// Replace the existing script section in your HTML with this code
-
 // Replace this with your actual Google Apps Script Web App URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec';
 
 // Email collection system that sends to Google Sheets
 class GoogleSheetsEmailCollector {
@@ -840,10 +836,7 @@ class GoogleSheetsEmailCollector {
             }
 
         } catch (error) {
-            successMessage.innerHTML = '⚠️ Something went wrong. Please try again.';
-            successMessage.style.background = '#ffe6e6';
-            successMessage.style.borderColor = '#ff6b6b';
-            successMessage.classList.add('show');
+            this.showError(form, 'Something went wrong. Please try again.');
         }
 
         // Hide loading
@@ -896,10 +889,31 @@ class GoogleSheetsEmailCollector {
                 if (email && this.validateEmail(email)) {
                     await this.handleSubmission(email, form);
                 } else {
-                    alert('Please enter a valid email address');
+                    this.showError(form, 'Please enter a valid email address');
                 }
             });
         });
+    }
+
+    showError(form, message) {
+        const successMessage = form.parentElement.querySelector('.success-message');
+        successMessage.innerHTML = '⚠️ ' + message;
+        successMessage.style.background = '#ffe6e6';
+        successMessage.style.borderColor = '#ff6b6b';
+        successMessage.classList.add('show');
+
+        // Accessibility attributes
+        successMessage.setAttribute('role', 'alert');
+        successMessage.setAttribute('aria-live', 'polite');
+
+        // Hide after 3 seconds
+        setTimeout(() => {
+            successMessage.classList.remove('show');
+            successMessage.style.background = '';
+            successMessage.style.borderColor = '';
+            successMessage.removeAttribute('role');
+            successMessage.removeAttribute('aria-live');
+        }, 3000);
     }
 
     validateEmail(email) {
@@ -955,8 +969,7 @@ document.head.appendChild(style);
 // Initialize everything when DOM loads
 document.addEventListener('DOMContentLoaded', () => {
     // Check if Google Script URL is configured
-    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-') {
+    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec') {
         console.warn('⚠️ Please update GOOGLE_SCRIPT_URL with your actual Google Apps Script URL');
     }
     
