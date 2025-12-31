@@ -746,8 +746,7 @@
 // Replace the existing script section in your HTML with this code
 
 // Replace this with your actual Google Apps Script Web App URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec';
 
 // Email collection system that sends to Google Sheets
 class GoogleSheetsEmailCollector {
@@ -755,7 +754,7 @@ class GoogleSheetsEmailCollector {
         this.init();
     }
 
-    async sendToGoogleSheets(email, source = 'hero') {
+    async sendToGoogleSheets(email, source = 'hero', enableFallback = true) {
         try {
             const response = await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
@@ -780,16 +779,19 @@ class GoogleSheetsEmailCollector {
             }
         } catch (error) {
             console.error('❌ Error saving to Google Sheets:', error);
-            // Fallback: save to localStorage
-            this.saveToLocalStorage(email);
-            return { success: true, isOffline: true };
+            if (enableFallback) {
+                // Fallback: save to localStorage
+                this.saveToLocalStorage(email);
+                return { success: true, isOffline: true };
+            }
+            throw error;
         }
     }
 
     saveToLocalStorage(email) {
         try {
             const emails = JSON.parse(localStorage.getItem('badgefinda_emails') || '[]');
-            if (!emails.includes(email)) {
+            if (!emails.some(e => e.email === email)) {
                 emails.push({
                     email: email,
                     timestamp: new Date().toISOString(),
@@ -799,6 +801,28 @@ class GoogleSheetsEmailCollector {
             }
         } catch (error) {
             console.log('Local storage not available');
+        }
+    }
+
+    async syncOfflineEmails() {
+        try {
+            const emails = JSON.parse(localStorage.getItem('badgefinda_emails') || '[]');
+            if (emails.length === 0) return;
+
+            console.log(`Attempting to sync ${emails.length} offline emails...`);
+            const remainingEmails = [];
+
+            for (const item of emails) {
+                try {
+                    await this.sendToGoogleSheets(item.email, item.source || 'offline', false);
+                    console.log(`Synced ${item.email}`);
+                } catch (e) {
+                     remainingEmails.push(item);
+                }
+            }
+            localStorage.setItem('badgefinda_emails', JSON.stringify(remainingEmails));
+        } catch (error) {
+            console.error('Error syncing offline emails:', error);
         }
     }
 
@@ -888,6 +912,12 @@ class GoogleSheetsEmailCollector {
     }
 
     init() {
+        // Sync any offline emails on startup
+        this.syncOfflineEmails();
+
+        // Sync when coming online
+        window.addEventListener('online', () => this.syncOfflineEmails());
+
         const forms = document.querySelectorAll('#emailForm, #emailForm2');
         forms.forEach(form => {
             form.addEventListener('submit', async (e) => {
@@ -955,8 +985,7 @@ document.head.appendChild(style);
 // Initialize everything when DOM loads
 document.addEventListener('DOMContentLoaded', () => {
     // Check if Google Script URL is configured
-    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-') {
+    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec') {
         console.warn('⚠️ Please update GOOGLE_SCRIPT_URL with your actual Google Apps Script URL');
     }
     
