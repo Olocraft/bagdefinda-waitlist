@@ -81,7 +81,7 @@
 
         /* Hero Section */
         .hero {
-            padding: 140px 0 100px;
+            padding: calc(var(--header-height, 94px) + 46px) 0 100px;
             text-align: center;
             background: linear-gradient(135deg, #f1c40f 0%, #f8e822 50%, #ffffff 100%);
             position: relative;
@@ -746,8 +746,7 @@
 // Replace the existing script section in your HTML with this code
 
 // Replace this with your actual Google Apps Script Web App URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec';
 
 // Email collection system that sends to Google Sheets
 class GoogleSheetsEmailCollector {
@@ -942,7 +941,7 @@ function animateCounters() {
 const confettiCSS = `
 @keyframes confettiFall {
     to {
-        transform: translateY(100vh) rotate(720deg);
+        transform: translateY(calc(var(--vh, 1vh) * 100)) rotate(720deg);
         opacity: 0;
     }
 }
@@ -955,8 +954,7 @@ document.head.appendChild(style);
 // Initialize everything when DOM loads
 document.addEventListener('DOMContentLoaded', () => {
     // Check if Google Script URL is configured
-    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-') {
+    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec') {
         console.warn('⚠️ Please update GOOGLE_SCRIPT_URL with your actual Google Apps Script URL');
     }
     
@@ -990,12 +988,29 @@ function requestTick() {
 }
 
 window.addEventListener('scroll', requestTick, { passive: true });
+
+function adjustLayout() {
+    // Fix for mobile 100vh issue
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+    // Adjust hero padding based on header height
+    const header = document.querySelector('.header');
+    if (header) {
+        const headerHeight = header.getBoundingClientRect().height;
+        document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+    }
+}
+
 window.addEventListener('resize', () => {
     clearTimeout(window.resizeTimeout);
     window.resizeTimeout = setTimeout(() => {
-        // Handle any resize optimizations
+        adjustLayout();
     }, 250);
-}, { passive: true });    
+}, { passive: true });
+
+// Initial layout adjustment
+adjustLayout();
     </script>
 </body>
 </html>
