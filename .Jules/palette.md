@@ -1,0 +1,3 @@
+## 2024-05-23 - Inline Form Validation and Accessibility
+**Learning:** Browser native validation (`type="email"`) combined with `alert()` is disruptive and can be unreachable or inconsistent. Custom inline validation with `novalidate` provides a smoother, more accessible experience.
+**Action:** When implementing form validation, always disable native validation with `novalidate` if using custom JS, and ensure error messages are announced to screen readers using `role="alert"` and `aria-live="polite"`. Always associate visible errors with inputs or focus management, though in this simple case, a live region suffices for the status message.

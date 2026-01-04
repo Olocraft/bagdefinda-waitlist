@@ -623,20 +623,21 @@
                 <p>The simplest way to get tickets, play fantasy, and connect with your team.</p>
                 
                 <div class="email-signup">
-                    <form id="emailForm" class="email-form">
+                    <form id="emailForm" class="email-form" novalidate>
                         <input 
                             type="email" 
                             class="email-input" 
                             placeholder="Enter your email" 
                             required
                             id="emailInput"
+                            aria-label="Email address"
                         >
                         <button type="submit" class="submit-btn" id="submitBtn">
                             <span class="btn-text">Get Early Access</span>
                             <div class="loading" id="loading"></div>
                         </button>
                     </form>
-                    <div class="success-message" id="successMessage">
+                    <div class="success-message" id="successMessage" role="alert" aria-live="polite">
                         ✓ You're on the list! We'll notify you when Badgefinda launches.
                     </div>
                 </div>
@@ -707,20 +708,21 @@
             <p>Be the first to experience Badgefinda when we launch</p>
             
             <div class="email-signup">
-                <form id="emailForm2" class="email-form">
+                <form id="emailForm2" class="email-form" novalidate>
                     <input 
                         type="email" 
                         class="email-input" 
                         placeholder="Your email address" 
                         required
                         id="emailInput2"
+                        aria-label="Email address"
                     >
                     <button type="submit" class="submit-btn" id="submitBtn2">
                         <span class="btn-text">Join Waitlist</span>
                         <div class="loading" id="loading2"></div>
                     </button>
                 </form>
-                <div class="success-message" id="successMessage2">
+                <div class="success-message" id="successMessage2" role="alert" aria-live="polite">
                     ✓ Perfect! You're all set for early access.
                 </div>
             </div>
@@ -746,8 +748,7 @@
 // Replace the existing script section in your HTML with this code
 
 // Replace this with your actual Google Apps Script Web App URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec';
 
 // Email collection system that sends to Google Sheets
 class GoogleSheetsEmailCollector {
@@ -843,6 +844,7 @@ class GoogleSheetsEmailCollector {
             successMessage.innerHTML = '⚠️ Something went wrong. Please try again.';
             successMessage.style.background = '#ffe6e6';
             successMessage.style.borderColor = '#ff6b6b';
+            successMessage.style.color = '#721c24';
             successMessage.classList.add('show');
         }
 
@@ -860,6 +862,7 @@ class GoogleSheetsEmailCollector {
             successMessage.classList.remove('show');
             successMessage.style.background = '';
             successMessage.style.borderColor = '';
+            successMessage.style.color = '';
             submitBtn.disabled = false;
         }, 4000);
     }
@@ -896,7 +899,19 @@ class GoogleSheetsEmailCollector {
                 if (email && this.validateEmail(email)) {
                     await this.handleSubmission(email, form);
                 } else {
-                    alert('Please enter a valid email address');
+                    const successMessage = form.parentElement.querySelector('.success-message');
+                    successMessage.innerHTML = '⚠️ Please enter a valid email address';
+                    successMessage.style.background = '#ffe6e6';
+                    successMessage.style.borderColor = '#ff6b6b';
+                    successMessage.style.color = '#721c24';
+                    successMessage.classList.add('show');
+
+                    setTimeout(() => {
+                        successMessage.classList.remove('show');
+                        successMessage.style.background = '';
+                        successMessage.style.borderColor = '';
+                        successMessage.style.color = '';
+                    }, 3000);
                 }
             });
         });
@@ -955,8 +970,7 @@ document.head.appendChild(style);
 // Initialize everything when DOM loads
 document.addEventListener('DOMContentLoaded', () => {
     // Check if Google Script URL is configured
-    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-') {
+    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec') {
         console.warn('⚠️ Please update GOOGLE_SCRIPT_URL with your actual Google Apps Script URL');
     }
     
