@@ -230,6 +230,19 @@
             animation: fadeIn 0.5s ease;
         }
 
+        /* Visually Hidden for Accessibility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -623,12 +636,14 @@
                 <p>The simplest way to get tickets, play fantasy, and connect with your team.</p>
                 
                 <div class="email-signup">
-                    <form id="emailForm" class="email-form">
+                    <form id="emailForm" class="email-form" novalidate>
+                        <label for="emailInput" class="visually-hidden">Email address</label>
                         <input 
                             type="email" 
                             class="email-input" 
                             placeholder="Enter your email" 
                             required
+                            aria-invalid="false"
                             id="emailInput"
                         >
                         <button type="submit" class="submit-btn" id="submitBtn">
@@ -636,7 +651,7 @@
                             <div class="loading" id="loading"></div>
                         </button>
                     </form>
-                    <div class="success-message" id="successMessage">
+                    <div class="success-message" id="successMessage" role="alert" aria-live="polite">
                         ✓ You're on the list! We'll notify you when Badgefinda launches.
                     </div>
                 </div>
@@ -707,12 +722,14 @@
             <p>Be the first to experience Badgefinda when we launch</p>
             
             <div class="email-signup">
-                <form id="emailForm2" class="email-form">
+                <form id="emailForm2" class="email-form" novalidate>
+                    <label for="emailInput2" class="visually-hidden">Email address</label>
                     <input 
                         type="email" 
                         class="email-input" 
                         placeholder="Your email address" 
                         required
+                        aria-invalid="false"
                         id="emailInput2"
                     >
                     <button type="submit" class="submit-btn" id="submitBtn2">
@@ -720,7 +737,7 @@
                         <div class="loading" id="loading2"></div>
                     </button>
                 </form>
-                <div class="success-message" id="successMessage2">
+                <div class="success-message" id="successMessage2" role="alert" aria-live="polite">
                     ✓ Perfect! You're all set for early access.
                 </div>
             </div>
@@ -746,8 +763,7 @@
 // Replace the existing script section in your HTML with this code
 
 // Replace this with your actual Google Apps Script Web App URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec';
 
 // Email collection system that sends to Google Sheets
 class GoogleSheetsEmailCollector {
@@ -822,6 +838,11 @@ class GoogleSheetsEmailCollector {
             // Send to Google Sheets
             const result = await this.sendToGoogleSheets(email, source);
 
+            // Reset styles in case they were set by error state
+            successMessage.style.background = '';
+            successMessage.style.borderColor = '';
+            successMessage.style.color = '';
+
             // Show appropriate success message
             if (result.isDuplicate) {
                 successMessage.innerHTML = '✓ You\'re already on our list! Thanks for your enthusiasm!';
@@ -892,14 +913,33 @@ class GoogleSheetsEmailCollector {
         forms.forEach(form => {
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const email = form.querySelector('.email-input').value.trim();
+                const emailInput = form.querySelector('.email-input');
+                const email = emailInput.value.trim();
+
                 if (email && this.validateEmail(email)) {
+                    emailInput.setAttribute('aria-invalid', 'false');
                     await this.handleSubmission(email, form);
                 } else {
-                    alert('Please enter a valid email address');
+                    emailInput.setAttribute('aria-invalid', 'true');
+                    this.showError(form, '⚠️ Please enter a valid email address.');
                 }
             });
         });
+    }
+
+    showError(form, message) {
+        const successMessage = form.parentElement.querySelector('.success-message');
+        successMessage.textContent = message;
+        successMessage.style.background = '#ffe6e6';
+        successMessage.style.borderColor = '#ff6b6b';
+        successMessage.style.color = '#cc0000';
+        successMessage.classList.add('show');
+
+        // Clear error after a few seconds
+        if (this.errorTimeout) clearTimeout(this.errorTimeout);
+        this.errorTimeout = setTimeout(() => {
+            successMessage.classList.remove('show');
+        }, 3000);
     }
 
     validateEmail(email) {
@@ -955,8 +995,7 @@ document.head.appendChild(style);
 // Initialize everything when DOM loads
 document.addEventListener('DOMContentLoaded', () => {
     // Check if Google Script URL is configured
-    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-') {
+    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec') {
         console.warn('⚠️ Please update GOOGLE_SCRIPT_URL with your actual Google Apps Script URL');
     }
     
