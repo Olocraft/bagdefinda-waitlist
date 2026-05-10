@@ -3,999 +3,1640 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Badgefinda - Your Team. Your Game. Your Badge.</title>
+    <title>Badgefinda</title>
     <link rel="icon" type="image/png" href="1-removebg-preview.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Global Reset & Colors */
+        :root {
+            --bg-color: #0A0A0A;
+            --text-color: #FFFFFF;
+            --primary: #FFD700;
+            --primary-hover: #E6C200;
+            --surface: #1A1A1A;
+            --surface-light: #2A2A2A;
+            --radius: 1rem;
+            --radius-2xl: 1.5rem;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            .social-links {
-                flex-wrap: wrap;
-                gap: 16px;
-            }
-
-            .social-link {
-                width: 44px;
-                height: 44px;
-                border-radius: 22px;
-            }
+            font-family: 'Inter', sans-serif;
+        }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: #ffffff;
-            color: #1a1a1a;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.5;
+            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* Utility */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
-        /* Header */
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            border-bottom: 1px solid #f1c40f;
-            border-radius: 0 0 24px 24px;
+        .hidden {
+            display: none !important;
         }
 
-        .nav {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px 24px;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo {
-            width: 54px;
-            height: 54px;
-            transition: transform 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.1);
-        }
-
-        .brand-name {
-            font-size: 20px;
-            font-weight: 600;
-            color: #1a1a1a;
-            letter-spacing: -0.5px;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 140px 0 100px;
-            text-align: center;
-            background: linear-gradient(135deg, #f1c40f 0%, #f8e822 50%, #ffffff 100%);
-            position: relative;
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
             overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
         }
 
-        .hero::before {
+        /* Landing Page */
+        #view-landing {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        #view-landing::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(241, 196, 15, 0.1) 0%, transparent 50%);
-            border-radius: 0 0 60px 60px;
+            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .hero-content {
-            max-width: 640px;
-            margin: 0 auto;
             position: relative;
-            z-index: 2;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 600;
-            margin-bottom: 24px;
-            color: #1a1a1a;
-            letter-spacing: -2px;
-            line-height: 1.1;
-        }
-
-        .hero p {
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
-            margin-bottom: 48px;
-            color: #666;
-            font-weight: 300;
-        }
-
-        /* Minimalist Email Form */
-        .email-signup {
-            max-width: 400px;
-            margin: 0 auto 80px;
-            position: relative;
-        }
-
-        .email-form {
-            display: flex;
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px solid #f1c40f;
-            border-radius: 60px;
-            padding: 6px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(241, 196, 15, 0.15);
-            backdrop-filter: blur(10px);
-        }
-
-        .email-form:focus-within {
-            border-color: #f8e822;
-            box-shadow: 0 12px 48px rgba(241, 196, 15, 0.25);
-            transform: translateY(-2px);
-        }
-
-        .email-input {
-            flex: 1;
-            padding: 16px 24px;
-            border: none;
-            background: transparent;
-            font-size: 16px;
-            outline: none;
-            color: #1a1a1a;
-        }
-
-        .email-input::placeholder {
-            color: #999;
-        }
-
-        .submit-btn {
-            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
-            color: white;
-            border: none;
-            border-radius: 54px;
-            padding: 16px 32px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            box-shadow: 0 4px 16px rgba(26, 26, 26, 0.2);
-        }
-
-        .submit-btn:hover {
-            background: linear-gradient(135deg, #333 0%, #555 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(26, 26, 26, 0.3);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        .submit-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Loading State */
-        .loading {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #fff;
-            border-top: 2px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        .loading.active {
-            display: block;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Success Message */
-        .success-message {
-            display: none;
-            margin-top: 16px;
-            padding: 16px 32px;
-            background: linear-gradient(135deg, #f8fff4 0%, #e8f5e8 100%);
-            border: 2px solid #f1c40f;
-            border-radius: 32px;
-            color: #155724;
-            font-size: 14px;
-            text-align: center;
-            font-weight: 500;
-            box-shadow: 0 4px 16px rgba(241, 196, 15, 0.1);
-        }
-
-        .success-message.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Features Section - Minimal */
-        .features {
-            padding: 100px 0;
-            background: linear-gradient(180deg, #ffffff 0%, #fffef7 100%);
-            border-radius: 60px 60px 0 0;
-            margin-top: -30px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .features-content {
-            text-align: center;
+            z-index: 1;
             max-width: 800px;
-            margin: 0 auto;
         }
 
-        .section-title {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: #1a1a1a;
-            letter-spacing: -1px;
+        .hero-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
         }
 
-        .section-subtitle {
-            font-size: 1.125rem;
-            color: #666;
-            margin-bottom: 64px;
-            font-weight: 300;
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.05em;
         }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 48px;
-            margin-top: 64px;
+        .hero-title span {
+            color: var(--primary);
         }
 
-        .feature {
-            text-align: center;
-            padding: 32px 24px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 32px;
-            border: 2px solid rgba(241, 196, 15, 0.2);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+        .hero-subtitle {
+            font-size: clamp(1.125rem, 3vw, 1.5rem);
+            color: #A0A0A0;
+            margin-bottom: 3rem;
+            font-weight: 400;
         }
 
-        .feature:hover {
-            transform: translateY(-8px);
-            border-color: #f1c40f;
-            box-shadow: 0 16px 48px rgba(241, 196, 15, 0.15);
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 24px;
-            display: block;
-        }
-
-        .feature-title {
-            font-size: 1.125rem;
-            font-weight: 500;
-            margin-bottom: 12px;
-            color: #1a1a1a;
-        }
-
-        .feature-description {
-            color: #666;
-            font-weight: 300;
-            line-height: 1.6;
-        }
-
-        /* Stats Section - Minimal */
-        .stats {
-            padding: 80px 0;
-            background: linear-gradient(135deg, #f1c40f 0%, #f8e822 100%);
-            text-align: center;
-            border-radius: 60px;
-            margin: 60px 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stats::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 48px;
-            max-width: 600px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        .stat {
-            padding: 24px 20px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 28px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .stat:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-            letter-spacing: -1px;
-        }
-
-        .stat-label {
-            color: #666;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 500;
-        }
-
-        /* Final CTA */
-        .final-cta {
-            padding: 100px 0;
-            text-align: center;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            color: white;
-            border-radius: 60px 60px 0 0;
-            margin-top: -30px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .final-cta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(241, 196, 15, 0.05) 0%, transparent 100%);
-        }
-
-        .final-cta h2 {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            font-weight: 600;
-            margin-bottom: 16px;
-            letter-spacing: -1px;
-        }
-
-        .final-cta p {
-            font-size: 1.125rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 48px;
-            font-weight: 300;
-        }
-
-        .final-cta .email-form {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #f1c40f;
-            backdrop-filter: blur(20px);
-        }
-
-        .final-cta .email-form:focus-within {
-            border-color: #f39c12;
-            box-shadow: 0 12px 48px rgba(241, 196, 15, 0.2);
-        }
-
-        .final-cta .email-input {
-            color: white;
-        }
-
-        .final-cta .email-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .final-cta .submit-btn {
-            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
-            color: #1a1a1a;
-            font-weight: 600;
-            box-shadow: 0 4px 16px rgba(241, 196, 15, 0.3);
-        }
-
-        .final-cta .submit-btn:hover {
-            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
-            box-shadow: 0 8px 24px rgba(241, 196, 15, 0.4);
-        }
-
-        /* Footer */
-        .footer {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            color: rgba(255, 255, 255, 0.8);
-            padding: 48px 0 32px;
-            text-align: center;
-        }
-
-        .social-links {
+        .role-selection {
             display: flex;
+            gap: 1.5rem;
             justify-content: center;
-            gap: 24px;
-            margin-bottom: 32px;
+            flex-wrap: wrap;
         }
 
-        .social-link {
+        .role-card {
+            background-color: var(--surface);
+            border: 2px solid var(--surface-light);
+            border-radius: var(--radius-2xl);
+            padding: 2.5rem;
+            width: 280px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .role-card:hover, .role-card:focus {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.1);
+            outline: none;
+        }
+
+        .role-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .role-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .role-desc {
+            color: #A0A0A0;
+            font-size: 0.875rem;
+        }
+
+        /* App Layout Setup */
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Dashboard Layout */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface);
+            border-right: 1px solid var(--surface-light);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--text-color);
+        }
+
+        .sidebar-logo img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius);
+            color: #A0A0A0;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            margin-bottom: 0.5rem;
+            width: 100%;
+            text-align: left;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: rgba(255, 215, 0, 0.1);
+            color: var(--primary);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem 3rem;
+            overflow-y: auto;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .dashboard-title {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--surface-light);
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 48px;
-            height: 48px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            text-decoration: none;
-            border-radius: 24px;
-            transition: all 0.3s ease;
-            font-size: 1.125rem;
-            border: 2px solid transparent;
+            font-weight: 600;
+            color: var(--primary);
         }
 
-        .social-link:hover {
-            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
-            color: #1a1a1a;
-            transform: translateY(-4px);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 24px rgba(241, 196, 15, 0.3);
+        /* Fan Dashboard Specific */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
         }
 
-        .footer-text {
+        .stat-card {
+            background-color: var(--surface);
+            border: 1px solid var(--surface-light);
+            border-radius: var(--radius-2xl);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: rgba(255, 215, 0, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-info h3 {
             font-size: 0.875rem;
-            font-weight: 300;
+            color: #A0A0A0;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 20px;
-            }
-
-            .hero {
-                padding: 120px 0 80px;
-            }
-
-            .hero h1 {
-                margin-bottom: 20px;
-            }
-
-            .hero p {
-                margin-bottom: 40px;
-            }
-
-            .email-signup {
-                margin-bottom: 60px;
-            }
-
-            .email-form {
-                flex-direction: column;
-                padding: 12px;
-                border-radius: 28px;
-            }
-
-            .email-input {
-                padding: 18px 24px;
-                margin-bottom: 12px;
-                border-radius: 20px;
-            }
-
-            .submit-btn {
-                border-radius: 20px;
-                padding: 18px 28px;
-            }
-
-            .features, .stats, .final-cta {
-                padding: 80px 0;
-            }
-
-            .features-grid {
-                gap: 40px;
-                grid-template-columns: 1fr;
-                margin-top: 48px;
-            }
-
-            .stats {
-                margin: 40px 16px;
-                border-radius: 40px;
-            }
-
-            .stats-grid {
-                gap: 32px;
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .stat {
-                padding: 20px 16px;
-                border-radius: 20px;
-            }
+        .stat-info p {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
         }
 
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 16px;
-            }
-
-            .nav {
-                padding: 16px 20px;
-            }
-
-            .hero {
-                padding: 100px 0 60px;
-            }
-
-            .features, .stats, .final-cta {
-                padding: 60px 0;
-            }
-
-            .features {
-                border-radius: 40px 40px 0 0;
-            }
-
-            .feature {
-                padding: 24px 20px;
-                border-radius: 24px;
-            }
-
-            .stats {
-                margin: 30px 12px;
-                border-radius: 32px;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
-
-            .stat {
-                padding: 18px 14px;
-                border-radius: 18px;
-            }
-
-            .stat-number {
-                font-size: 2rem;
-            }
-
-            .final-cta {
-                border-radius: 40px 40px 0 0;
-            }
+        .dashboard-sections {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            align-items: start;
         }
 
-        /* Performance Optimizations */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
+        .section-card {
+            background-color: var(--surface);
+            border: 1px solid var(--surface-light);
+            border-radius: var(--radius-2xl);
+            padding: 1.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .btn-view-all {
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .btn-view-all:hover {
+            text-decoration: underline;
+        }
+
+        /* Match Card */
+        .match-card {
+            background-color: var(--surface-light);
+            border-radius: var(--radius);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .match-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .match-teams {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .team-logo {
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+
+        .match-vs {
+            color: #A0A0A0;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+
+        .match-details {
+            text-align: right;
+        }
+
+        .match-date {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .match-venue {
+            font-size: 0.875rem;
+            color: #A0A0A0;
+        }
+
+        /* Badges */
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .badge-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 0.5rem;
+        }
+
+        .badge-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .badge-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+
+        @keyframes scan {
+            0% { top: 0; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* Fantasy XI Builder */
+        .fantasy-layout {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 1.5rem;
+            height: calc(100vh - 150px);
+        }
+
+        .pitch-container {
+            background: linear-gradient(180deg, #1A3A1A 0%, #0F200F 100%);
+            border: 2px solid #2A4A2A;
+            border-radius: var(--radius-2xl);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 2rem;
+        }
+
+        .pitch-lines {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            border: 2px solid rgba(255,255,255,0.1);
+            margin: 1rem;
+        }
+
+        .pitch-lines::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 0; right: 0;
+            height: 2px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .pitch-lines::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 100px; height: 100px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .pitch-row {
+            display: flex;
+            justify-content: space-around;
+            position: relative;
+            z-index: 1;
+        }
+
+        .player-slot {
+            width: 80px;
+            height: 100px;
+            border: 2px dashed rgba(255,255,255,0.3);
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.3);
+            transition: all 0.2s;
+        }
+
+        .player-slot.drag-over {
+            border-color: var(--primary);
+            background: rgba(255,215,0,0.2);
+            transform: scale(1.05);
+        }
+
+        .player-card {
+            width: 100%;
+            height: 100%;
+            background: var(--surface);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            position: relative;
+        }
+
+        .player-card:active {
+            cursor: grabbing;
+        }
+
+        .player-card .p-pos {
+            font-size: 0.75rem;
+            color: #A0A0A0;
+            position: absolute;
+            top: 4px; left: 4px;
+        }
+
+        .player-card .p-rating {
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-weight: 700;
+            position: absolute;
+            top: 4px; right: 4px;
+        }
+
+        .player-card .p-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .roster-panel {
+            background-color: var(--surface);
+            border: 1px solid var(--surface-light);
+            border-radius: var(--radius-2xl);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .roster-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--surface-light);
+        }
+
+        .roster-filter {
+            width: 100%;
+            padding: 0.5rem;
+            background: var(--surface-light);
+            border: 1px solid #333;
+            color: white;
+            border-radius: var(--radius);
+            margin-top: 1rem;
+        }
+
+        .roster-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .roster-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--surface-light);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+            cursor: grab;
+            border: 1px solid transparent;
+        }
+
+        .roster-item:hover {
+            border-color: var(--primary);
+        }
+
+        .roster-item.dragging {
+            opacity: 0.5;
+        }
+
+        .formation-selector {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            z-index: 10;
+        }
+
+        .formation-selector select {
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: 1px solid var(--primary);
+            padding: 0.5rem;
+            border-radius: var(--radius);
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav">
-            <div class="logo-container">
-                <img src="1-removebg-preview.png" alt="Badgefinda" class="logo">
-                <span class="brand-name">Badgefinda</span>
-            </div>
-        </nav>
-    </header>
+    <div id="app">
+        <!-- Landing View -->
+        <main id="view-landing">
+            <div class="container hero-content">
+                <img src="1-removebg-preview.png" alt="Badgefinda Logo" class="hero-logo" onerror="this.style.display='none'">
+                <h1 class="hero-title">Welcome to <span>Badgefinda</span></h1>
+                <p class="hero-subtitle">The ultimate platform for fans to connect, play, and experience the game like never before.</p>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Your Team. Your Game. Your Badge.</h1>
-                <p>The simplest way to get tickets, play fantasy, and connect with your team.</p>
-                
-                <div class="email-signup">
-                    <form id="emailForm" class="email-form">
-                        <input 
-                            type="email" 
-                            class="email-input" 
-                            placeholder="Enter your email" 
-                            required
-                            id="emailInput"
-                        >
-                        <button type="submit" class="submit-btn" id="submitBtn">
-                            <span class="btn-text">Get Early Access</span>
-                            <div class="loading" id="loading"></div>
-                        </button>
-                    </form>
-                    <div class="success-message" id="successMessage">
-                        ✓ You're on the list! We'll notify you when Badgefinda launches.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features">
-        <div class="container">
-            <div class="features-content">
-                <h2 class="section-title">Everything you need</h2>
-                <p class="section-subtitle">One platform for all your fan activities</p>
-                
-                <div class="features-grid">
-                    <div class="feature">
-                        <span class="feature-icon">🎟️</span>
-                        <h3 class="feature-title">Tickets</h3>
-                        <p class="feature-description">Direct from teams, no markup</p>
-                    </div>
-                    
-                    <div class="feature">
-                        <span class="feature-icon">🏆</span>
-                        <h3 class="feature-title">Fantasy</h3>
-                        <p class="feature-description">Compete with friends</p>
-                    </div>
-                    
-                    <div class="feature">
-                        <span class="feature-icon">👕</span>
-                        <h3 class="feature-title">Merch</h3>
-                        <p class="feature-description">Official team gear</p>
-                    </div>
-                    
-                    <div class="feature">
-                        <span class="feature-icon">💎</span>
-                        <h3 class="feature-title">Rewards</h3>
-                        <p class="feature-description">Exclusive fan perks</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat">
-                    <div class="stat-number" data-target="1247">0</div>
-                    <div class="stat-label">Fans Waiting</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number" data-target="89">0</div>
-                    <div class="stat-label">Teams</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number" data-target="156">0</div>
-                    <div class="stat-label">Cities</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Final CTA -->
-    <section class="final-cta">
-        <div class="container">
-            <h2>Join the waitlist</h2>
-            <p>Be the first to experience Badgefinda when we launch</p>
-            
-            <div class="email-signup">
-                <form id="emailForm2" class="email-form">
-                    <input 
-                        type="email" 
-                        class="email-input" 
-                        placeholder="Your email address" 
-                        required
-                        id="emailInput2"
-                    >
-                    <button type="submit" class="submit-btn" id="submitBtn2">
-                        <span class="btn-text">Join Waitlist</span>
-                        <div class="loading" id="loading2"></div>
+                <div class="role-selection">
+                    <button class="role-card" onclick="app.setRole('fan')" aria-label="I'm a Fan">
+                        <div class="role-icon">🏟️</div>
+                        <h2 class="role-title">I'm a Fan</h2>
+                        <p class="role-desc">Access tickets, merch, fantasy, and leaderboards.</p>
                     </button>
-                </form>
-                <div class="success-message" id="successMessage2">
-                    ✓ Perfect! You're all set for early access.
+
+                    <button class="role-card" onclick="app.setRole('admin')" aria-label="I'm an Admin">
+                        <div class="role-icon">⚙️</div>
+                        <h2 class="role-title">I'm an Admin</h2>
+                        <p class="role-desc">Manage roster, matches, tickets, and analytics.</p>
+                    </button>
                 </div>
             </div>
-        </div>
-    </section>
+        </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="social-links">
-                <a href="#" class="social-link" aria-label="Twitter">𝕏</a>
-                <a href="#" class="social-link" aria-label="Instagram">📷</a>
-                <a href="#" class="social-link" aria-label="TikTok">🎵</a>
-            </div>
-            <div class="footer-text">
-                © 2025 Badgefinda — Built for the fans
-            </div>
+        <!-- Fan Dashboard View -->
+        <div id="view-fan" class="hidden app-layout">
+            <aside class="sidebar">
+                <a href="#" class="sidebar-logo" onclick="app.setRole('landing')">
+                    <img src="1-removebg-preview.png" alt="Logo" onerror="this.style.display='none'">
+                    Badgefinda
+                </a>
+                <nav>
+                    <button class="nav-item active" onclick="app.setFanView('overview')" id="nav-fan-overview">
+                        <span>📊</span> Overview
+                    </button>
+                    <button class="nav-item" onclick="app.setFanView('matches')" id="nav-fan-matches">
+                        <span>🎟️</span> Matches & Tickets
+                    </button>
+                    <button class="nav-item" onclick="app.setFanView('fantasy')" id="nav-fan-fantasy">
+                        <span>🏆</span> Fantasy XI
+                    </button>
+                    <button class="nav-item" onclick="app.setFanView('merch')" id="nav-fan-merch">
+                        <span>👕</span> Merch Store
+                    </button>
+                    <button class="nav-item" onclick="app.setFanView('leaderboards')" id="nav-fan-leaderboards">
+                        <span>⭐</span> Leaderboards
+                    </button>
+                </nav>
+            </aside>
+            <main class="main-content">
+                <header class="dashboard-header">
+                    <h1 class="dashboard-title">Fan Dashboard</h1>
+                    <div class="user-profile">
+                        <div class="user-info" style="text-align: right;">
+                            <div style="font-weight: 600;">John Doe</div>
+                            <div style="font-size: 0.875rem; color: #A0A0A0;">Super Fan</div>
+                        </div>
+                        <div class="user-avatar">JD</div>
+                    </div>
+                </header>
+
+                <!-- Fan Overview -->
+                <div id="fan-overview">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">⭐</div>
+                            <div class="stat-info">
+                                <h3>Total Points</h3>
+                                <p>2,450</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🎟️</div>
+                            <div class="stat-info">
+                                <h3>Tickets Owned</h3>
+                                <p>3</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🏆</div>
+                            <div class="stat-info">
+                                <h3>Fantasy Rank</h3>
+                                <p>#42</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-sections">
+                        <div class="section-card">
+                            <div class="section-header">
+                                <h2 class="section-title">Upcoming Matches</h2>
+                                <button class="btn-view-all" onclick="app.setFanView('matches')">View All</button>
+                            </div>
+                            <div class="match-list">
+                                <div class="match-card">
+                                    <div class="match-teams">
+                                        <div class="team">
+                                            <div class="team-logo" style="background:#B22222;">EAG</div>
+                                            <span>Eagles</span>
+                                        </div>
+                                        <div class="match-vs">VS</div>
+                                        <div class="team">
+                                            <div class="team-logo" style="background:#4682B4;">WOL</div>
+                                            <span>Wolves</span>
+                                        </div>
+                                    </div>
+                                    <div class="match-details">
+                                        <div class="match-date">Oct 15, 7:00 PM</div>
+                                        <div class="match-venue">Main Stadium</div>
+                                    </div>
+                                </div>
+                                <div class="match-card">
+                                    <div class="match-teams">
+                                        <div class="team">
+                                            <div class="team-logo" style="background:#DAA520; color: #000;">LIO</div>
+                                            <span>Lions</span>
+                                        </div>
+                                        <div class="match-vs">VS</div>
+                                        <div class="team">
+                                            <div class="team-logo" style="background:#B22222;">EAG</div>
+                                            <span>Eagles</span>
+                                        </div>
+                                    </div>
+                                    <div class="match-details">
+                                        <div class="match-date">Oct 22, 6:30 PM</div>
+                                        <div class="match-venue">Away Arena</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                            <div class="section-card">
+                                <div class="section-header">
+                                    <h2 class="section-title">Your Badges</h2>
+                                    <button class="btn-view-all">View All</button>
+                                </div>
+                                <div class="badges-grid">
+                                    <div class="badge-item">
+                                        <div class="badge-icon">🔥</div>
+                                        <span class="badge-name">Hot Streak</span>
+                                    </div>
+                                    <div class="badge-item">
+                                        <div class="badge-icon">🏟️</div>
+                                        <span class="badge-name">Loyal</span>
+                                    </div>
+                                    <div class="badge-item">
+                                        <div class="badge-icon">🎯</div>
+                                        <span class="badge-name">Predictor</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="section-card">
+                                <div class="section-header">
+                                    <h2 class="section-title">Fantasy XI Summary</h2>
+                                    <button class="btn-view-all" onclick="app.setFanView('fantasy')">Edit Team</button>
+                                </div>
+                                <div style="background: linear-gradient(180deg, #2A4A2A 0%, #1A2A1A 100%); border-radius: var(--radius); padding: 1rem; text-align: center; border: 1px solid #3A5A3A;">
+                                    <div style="color: rgba(255,255,255,0.7); font-size: 0.875rem; margin-bottom: 0.5rem;">Current Formation</div>
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 1rem;">4-3-3</div>
+                                    <div style="display: flex; justify-content: space-around; color: white;">
+                                        <div>
+                                            <div style="font-size: 1.25rem; font-weight: 600;">85</div>
+                                            <div style="font-size: 0.75rem; color: #A0A0A0;">Attack</div>
+                                        </div>
+                                        <div>
+                                            <div style="font-size: 1.25rem; font-weight: 600;">78</div>
+                                            <div style="font-size: 0.75rem; color: #A0A0A0;">Midfield</div>
+                                        </div>
+                                        <div>
+                                            <div style="font-size: 1.25rem; font-weight: 600;">82</div>
+                                            <div style="font-size: 0.75rem; color: #A0A0A0;">Defense</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Placeholders for other fan views -->
+                
+                <!-- Match Tickets View -->
+                <div id="fan-matches" class="hidden">
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; height: calc(100vh - 150px);">
+                        <!-- Upcoming Matches -->
+                        <div class="section-card" style="display: flex; flex-direction: column;">
+                            <div class="section-header">
+                                <h2 class="section-title">Upcoming Matches</h2>
+                            </div>
+                            <div style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem;">
+                                <!-- Match Item 1 -->
+                                <div style="background: var(--surface-light); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #333; display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <div style="font-size: 0.875rem; color: var(--primary); font-weight: 600; margin-bottom: 0.5rem;">Sat, Oct 14 • 15:00</div>
+                                        <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem;">Badgefinda FC vs. City Rivals</div>
+                                        <div style="font-size: 0.875rem; color: #A0A0A0;">Main Stadium</div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">$45</div>
+                                        <button class="btn-primary" onclick="alert('Ticket purchased!')" style="padding: 0.5rem 1.5rem; font-size: 0.875rem;">Buy Ticket</button>
+                                    </div>
+                                </div>
+
+                                <!-- Match Item 2 -->
+                                <div style="background: var(--surface-light); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #333; display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <div style="font-size: 0.875rem; color: var(--primary); font-weight: 600; margin-bottom: 0.5rem;">Wed, Oct 18 • 20:00</div>
+                                        <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem;">Badgefinda FC vs. United FC</div>
+                                        <div style="font-size: 0.875rem; color: #A0A0A0;">Main Stadium</div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">$55</div>
+                                        <button class="btn-primary" onclick="alert('Ticket purchased!')" style="padding: 0.5rem 1.5rem; font-size: 0.875rem;">Buy Ticket</button>
+                                    </div>
+                                </div>
+
+                                <!-- Match Item 3 -->
+                                <div style="background: var(--surface-light); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #333; display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <div style="font-size: 0.875rem; color: var(--primary); font-weight: 600; margin-bottom: 0.5rem;">Sun, Oct 22 • 14:30</div>
+                                        <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem;">Athletic Club vs. Badgefinda FC</div>
+                                        <div style="font-size: 0.875rem; color: #A0A0A0;">Away Stadium</div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">$35</div>
+                                        <button class="btn-primary" onclick="alert('Ticket purchased!')" style="padding: 0.5rem 1.5rem; font-size: 0.875rem;">Buy Ticket</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- My Tickets -->
+                        <div class="section-card" style="display: flex; flex-direction: column;">
+                            <div class="section-header">
+                                <h2 class="section-title">My Tickets</h2>
+                            </div>
+                            <div style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem;">
+                                <!-- Digital Ticket Card -->
+                                <div style="background: var(--surface-light); border-radius: var(--radius); border: 1px solid var(--primary); overflow: hidden;">
+                                    <div style="background: var(--primary); color: var(--background); padding: 1rem; text-align: center; font-weight: 700;">
+                                        MATCH TICKET
+                                    </div>
+                                    <div style="padding: 1.5rem; text-align: center;">
+                                        <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">vs. City Rivals</div>
+                                        <div style="font-size: 0.875rem; color: #A0A0A0; margin-bottom: 1.5rem;">Sat, Oct 14 • Main Stadium</div>
+
+                                        <!-- Mock QR Code -->
+                                        <div style="background: white; padding: 1rem; border-radius: 8px; display: inline-block; margin-bottom: 1rem;">
+                                            <div style="width: 120px; height: 120px; background:
+                                                linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000),
+                                                linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000);
+                                                background-size: 20px 20px; background-position: 0 0, 10px 10px; border: 4px solid black;">
+                                            </div>
+                                        </div>
+
+                                        <div style="display: flex; justify-content: space-between; border-top: 1px dashed #444; padding-top: 1rem; margin-top: 0.5rem; text-align: left;">
+                                            <div>
+                                                <div style="font-size: 0.75rem; color: #A0A0A0;">Gate</div>
+                                                <div style="font-weight: 700;">B</div>
+                                            </div>
+                                            <div>
+                                                <div style="font-size: 0.75rem; color: #A0A0A0;">Block</div>
+                                                <div style="font-weight: 700;">114</div>
+                                            </div>
+                                            <div>
+                                                <div style="font-size: 0.75rem; color: #A0A0A0;">Row</div>
+                                                <div style="font-weight: 700;">K</div>
+                                            </div>
+                                            <div>
+                                                <div style="font-size: 0.75rem; color: #A0A0A0;">Seat</div>
+                                                <div style="font-weight: 700;">42</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="fan-fantasy" class="hidden">
+                    <div class="fantasy-layout">
+                        <div class="pitch-container" id="pitch">
+                            <div class="pitch-lines"></div>
+                            <div class="formation-selector">
+                                <select id="formation-select" onchange="app.updateFormation()">
+                                    <option value="4-3-3">4-3-3</option>
+                                    <option value="4-4-2">4-4-2</option>
+                                    <option value="3-5-2">3-5-2</option>
+                                </select>
+                            </div>
+
+                            <!-- Attackers -->
+                            <div class="pitch-row" id="row-fwd">
+                                <div class="player-slot" data-pos="FWD"></div>
+                                <div class="player-slot" data-pos="FWD"></div>
+                                <div class="player-slot" data-pos="FWD"></div>
+                            </div>
+
+                            <!-- Midfielders -->
+                            <div class="pitch-row" id="row-mid">
+                                <div class="player-slot" data-pos="MID"></div>
+                                <div class="player-slot" data-pos="MID"></div>
+                                <div class="player-slot" data-pos="MID"></div>
+                            </div>
+
+                            <!-- Defenders -->
+                            <div class="pitch-row" id="row-def">
+                                <div class="player-slot" data-pos="DEF"></div>
+                                <div class="player-slot" data-pos="DEF"></div>
+                                <div class="player-slot" data-pos="DEF"></div>
+                                <div class="player-slot" data-pos="DEF"></div>
+                            </div>
+
+                            <!-- Goalkeeper -->
+                            <div class="pitch-row" id="row-gk">
+                                <div class="player-slot" data-pos="GK"></div>
+                            </div>
+                        </div>
+
+                        <div class="roster-panel">
+                            <div class="roster-header">
+                                <h2 class="section-title">Bench</h2>
+                                <select class="roster-filter" id="roster-filter">
+                                    <option value="ALL">All Positions</option>
+                                    <option value="FWD">Forwards</option>
+                                    <option value="MID">Midfielders</option>
+                                    <option value="DEF">Defenders</option>
+                                    <option value="GK">Goalkeepers</option>
+                                </select>
+                            </div>
+                            <div class="roster-list" id="roster-list">
+                                <!-- Roster items will be populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Merch Store View -->
+                <div id="fan-merch" class="hidden">
+                    <div class="section-card">
+                        <div class="section-header" style="justify-content: space-between; align-items: center; border-bottom: 1px solid var(--surface-light); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                            <h2 class="section-title">Merch Store</h2>
+                            <div style="display: flex; gap: 1rem; align-items: center;">
+                                <span style="font-weight: 600; color: var(--primary);">🛒 0 Items</span>
+                                <button class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Checkout</button>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem;">
+                            <!-- Merch Item 1 -->
+                            <div style="background: var(--surface-light); border-radius: var(--radius); border: 1px solid #333; overflow: hidden; display: flex; flex-direction: column;">
+                                <div style="height: 200px; background: #222; display: flex; align-items: center; justify-content: center; font-size: 4rem;">
+                                    👕
+                                </div>
+                                <div style="padding: 1.5rem; display: flex; flex-direction: column; flex: 1;">
+                                    <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Official Home Jersey</div>
+                                    <div style="font-size: 0.875rem; color: #A0A0A0; margin-bottom: 1rem; flex: 1;">The official home kit for the current season. Breathable and comfortable.</div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">$85</div>
+                                        <select style="background: #111; color: white; border: 1px solid #444; padding: 0.25rem; border-radius: 4px;">
+                                            <option>S</option><option>M</option><option>L</option><option>XL</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn-primary" onclick="alert('Added to cart!')" style="width: 100%;">Add to Cart</button>
+                                </div>
+                            </div>
+
+                            <!-- Merch Item 2 -->
+                            <div style="background: var(--surface-light); border-radius: var(--radius); border: 1px solid #333; overflow: hidden; display: flex; flex-direction: column;">
+                                <div style="height: 200px; background: #222; display: flex; align-items: center; justify-content: center; font-size: 4rem;">
+                                    🧣
+                                </div>
+                                <div style="padding: 1.5rem; display: flex; flex-direction: column; flex: 1;">
+                                    <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Supporter Scarf</div>
+                                    <div style="font-size: 0.875rem; color: #A0A0A0; margin-bottom: 1rem; flex: 1;">Show your colors at the stadium or on the street with this classic woven scarf.</div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">$25</div>
+                                    </div>
+                                    <button class="btn-primary" onclick="alert('Added to cart!')" style="width: 100%;">Add to Cart</button>
+                                </div>
+                            </div>
+
+                            <!-- Merch Item 3 -->
+                            <div style="background: var(--surface-light); border-radius: var(--radius); border: 1px solid #333; overflow: hidden; display: flex; flex-direction: column;">
+                                <div style="height: 200px; background: #222; display: flex; align-items: center; justify-content: center; font-size: 4rem;">
+                                    🧢
+                                </div>
+                                <div style="padding: 1.5rem; display: flex; flex-direction: column; flex: 1;">
+                                    <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Team Baseball Cap</div>
+                                    <div style="font-size: 0.875rem; color: #A0A0A0; margin-bottom: 1rem; flex: 1;">Adjustable fit cap featuring the embroidered team crest.</div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">$30</div>
+                                    </div>
+                                    <button class="btn-primary" onclick="alert('Added to cart!')" style="width: 100%;">Add to Cart</button>
+                                </div>
+                            </div>
+
+                            <!-- Merch Item 4 -->
+                            <div style="background: var(--surface-light); border-radius: var(--radius); border: 1px solid #333; overflow: hidden; display: flex; flex-direction: column;">
+                                <div style="height: 200px; background: #222; display: flex; align-items: center; justify-content: center; font-size: 4rem;">
+                                    ☕
+                                </div>
+                                <div style="padding: 1.5rem; display: flex; flex-direction: column; flex: 1;">
+                                    <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Ceramic Mug</div>
+                                    <div style="font-size: 0.875rem; color: #A0A0A0; margin-bottom: 1rem; flex: 1;">Start your matchday right with a coffee in the official club mug.</div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">$15</div>
+                                    </div>
+                                    <button class="btn-primary" onclick="alert('Added to cart!')" style="width: 100%;">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leaderboards View -->
+                <div id="fan-leaderboards" class="hidden">
+                    <div class="section-card">
+                        <div class="section-header" style="justify-content: space-between; align-items: center; border-bottom: 1px solid var(--surface-light); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                            <h2 class="section-title">Fan Leaderboards</h2>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button style="background: var(--primary); color: black; border: none; padding: 0.5rem 1rem; border-radius: var(--radius); font-weight: 600; cursor: pointer;">Global</button>
+                                <button style="background: var(--surface-light); color: white; border: 1px solid #333; padding: 0.5rem 1rem; border-radius: var(--radius); cursor: pointer;">Friends</button>
+                            </div>
+                        </div>
+
+                        <!-- Top 3 Podium -->
+                        <div style="display: flex; justify-content: center; align-items: flex-end; gap: 1rem; margin-bottom: 3rem; padding-top: 2rem;">
+                            <!-- 2nd Place -->
+                            <div style="display: flex; flex-direction: column; align-items: center; width: 120px;">
+                                <div style="width: 60px; height: 60px; background: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-bottom: 0.5rem; border: 3px solid #C0C0C0;">
+                                    AS
+                                </div>
+                                <div style="font-weight: 600; text-align: center; margin-bottom: 0.25rem;">Alex S.</div>
+                                <div style="color: var(--primary); font-weight: 700; margin-bottom: 1rem;">2,850 pts</div>
+                                <div style="background: linear-gradient(180deg, #C0C0C0 0%, #808080 100%); width: 100%; height: 100px; border-radius: 8px 8px 0 0; display: flex; justify-content: center; padding-top: 1rem; font-size: 2rem; font-weight: 800; color: rgba(0,0,0,0.3);">
+                                    2
+                                </div>
+                            </div>
+
+                            <!-- 1st Place -->
+                            <div style="display: flex; flex-direction: column; align-items: center; width: 140px;">
+                                <div style="position: relative;">
+                                    <div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 1.5rem;">👑</div>
+                                    <div style="width: 80px; height: 80px; background: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.25rem; margin-bottom: 0.5rem; border: 4px solid #FFD700;">
+                                        MJ
+                                    </div>
+                                </div>
+                                <div style="font-weight: 600; text-align: center; margin-bottom: 0.25rem;">Mike J.</div>
+                                <div style="color: var(--primary); font-weight: 700; margin-bottom: 1rem;">3,120 pts</div>
+                                <div style="background: linear-gradient(180deg, #FFD700 0%, #B8860B 100%); width: 100%; height: 140px; border-radius: 8px 8px 0 0; display: flex; justify-content: center; padding-top: 1rem; font-size: 2.5rem; font-weight: 800; color: rgba(0,0,0,0.3);">
+                                    1
+                                </div>
+                            </div>
+
+                            <!-- 3rd Place -->
+                            <div style="display: flex; flex-direction: column; align-items: center; width: 120px;">
+                                <div style="width: 60px; height: 60px; background: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-bottom: 0.5rem; border: 3px solid #CD7F32;">
+                                    SJ
+                                </div>
+                                <div style="font-weight: 600; text-align: center; margin-bottom: 0.25rem;">Sarah J.</div>
+                                <div style="color: var(--primary); font-weight: 700; margin-bottom: 1rem;">2,740 pts</div>
+                                <div style="background: linear-gradient(180deg, #CD7F32 0%, #8B4513 100%); width: 100%; height: 80px; border-radius: 8px 8px 0 0; display: flex; justify-content: center; padding-top: 1rem; font-size: 2rem; font-weight: 800; color: rgba(0,0,0,0.3);">
+                                    3
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- List View -->
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <!-- Header Row -->
+                            <div style="display: flex; padding: 0.75rem 1.5rem; color: #A0A0A0; font-size: 0.875rem; border-bottom: 1px solid var(--surface-light); margin-bottom: 0.5rem;">
+                                <div style="width: 50px; text-align: center;">Rank</div>
+                                <div style="flex: 1;">Fan</div>
+                                <div style="width: 100px; text-align: right;">Badges</div>
+                                <div style="width: 100px; text-align: right;">Points</div>
+                            </div>
+
+                            <!-- Rows -->
+                            <div style="display: flex; align-items: center; padding: 1rem 1.5rem; background: var(--surface-light); border-radius: var(--radius);">
+                                <div style="width: 50px; text-align: center; font-weight: 700; color: #A0A0A0;">4</div>
+                                <div style="flex: 1; display: flex; align-items: center; gap: 1rem;">
+                                    <div style="width: 40px; height: 40px; background: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; font-weight: 700;">TD</div>
+                                    <div style="font-weight: 600;">Tom D.</div>
+                                </div>
+                                <div style="width: 100px; text-align: right; color: #A0A0A0;">12</div>
+                                <div style="width: 100px; text-align: right; font-weight: 700; color: var(--primary);">2,610</div>
+                            </div>
+
+                            <div style="display: flex; align-items: center; padding: 1rem 1.5rem; background: var(--surface-light); border-radius: var(--radius);">
+                                <div style="width: 50px; text-align: center; font-weight: 700; color: #A0A0A0;">5</div>
+                                <div style="flex: 1; display: flex; align-items: center; gap: 1rem;">
+                                    <div style="width: 40px; height: 40px; background: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; font-weight: 700;">EW</div>
+                                    <div style="font-weight: 600;">Emma W.</div>
+                                </div>
+                                <div style="width: 100px; text-align: right; color: #A0A0A0;">11</div>
+                                <div style="width: 100px; text-align: right; font-weight: 700; color: var(--primary);">2,490</div>
+                            </div>
+
+                            <!-- Current User (Highlighted) -->
+                            <div style="display: flex; align-items: center; padding: 1rem 1.5rem; background: rgba(255,215,0,0.1); border: 1px solid var(--primary); border-radius: var(--radius); margin-top: 0.5rem;">
+                                <div style="width: 50px; text-align: center; font-weight: 700; color: var(--primary);">42</div>
+                                <div style="flex: 1; display: flex; align-items: center; gap: 1rem;">
+                                    <div style="width: 40px; height: 40px; background: var(--primary); color: black; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; font-weight: 700;">JD</div>
+                                    <div style="font-weight: 600; color: var(--primary);">John Doe (You)</div>
+                                </div>
+                                <div style="width: 100px; text-align: right; color: #A0A0A0;">8</div>
+                                <div style="width: 100px; text-align: right; font-weight: 700; color: var(--primary);">2,450</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
         </div>
-    </footer>
+
+        <!-- Admin Dashboard View Placeholder -->
+
+        <!-- Admin Dashboard View -->
+        <div id="view-admin" class="hidden app-layout">
+            <aside class="sidebar">
+                <div class="logo">
+                    <span style="color: var(--primary);">🛡️</span> Badgefinda
+                </div>
+                <nav class="nav-menu">
+                    <button class="nav-item active" onclick="app.setAdminView('overview')" id="nav-admin-overview">
+                        <span>📊</span> Overview
+                    </button>
+                    <button class="nav-item" onclick="app.setAdminView('roster')" id="nav-admin-roster">
+                        <span>👥</span> Team Roster
+                    </button>
+                    <button class="nav-item" onclick="app.setAdminView('matches')" id="nav-admin-matches">
+                        <span>📅</span> Matches
+                    </button>
+                    <button class="nav-item" onclick="app.setAdminView('tickets')" id="nav-admin-tickets">
+                        <span>🎟️</span> Ticket Scanner
+                    </button>
+                    <button class="nav-item" onclick="app.setRole('landing')" style="margin-top: auto;">
+                        <span>🚪</span> Exit Admin
+                    </button>
+                </nav>
+            </aside>
+            <main class="main-content">
+                <header class="dashboard-header">
+                    <h1 class="dashboard-title">Admin Dashboard</h1>
+                    <div class="user-profile">
+                        <div class="user-info" style="text-align: right;">
+                            <div style="font-weight: 600;">Admin User</div>
+                            <div style="font-size: 0.875rem; color: #A0A0A0;">System Access</div>
+                        </div>
+                        <div class="user-avatar" style="background: var(--primary); color: black;">AD</div>
+                    </div>
+                </header>
+
+                <!-- Admin Overview -->
+                <div id="admin-overview">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-info">
+                                <h3>Total Fans</h3>
+                                <p>12,450</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🎟️</div>
+                            <div class="stat-info">
+                                <h3>Tickets Sold</h3>
+                                <p>8,234</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-info">
+                                <h3>Revenue</h3>
+                                <p>$415k</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-sections">
+                        <div class="section-card">
+                            <div class="section-header">
+                                <h2 class="section-title">Recent Activity</h2>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div style="display: flex; justify-content: space-between; padding: 1rem; background: var(--surface-light); border-radius: var(--radius);">
+                                    <div>
+                                        <div style="font-weight: 600;">New user registration</div>
+                                        <div style="font-size: 0.875rem; color: #A0A0A0;">john.doe@example.com</div>
+                                    </div>
+                                    <div style="color: #A0A0A0; font-size: 0.875rem;">2 mins ago</div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 1rem; background: var(--surface-light); border-radius: var(--radius);">
+                                    <div>
+                                        <div style="font-weight: 600;">Ticket purchased</div>
+                                        <div style="font-size: 0.875rem; color: #A0A0A0;">vs. City Rivals (Block 114)</div>
+                                    </div>
+                                    <div style="color: #A0A0A0; font-size: 0.875rem;">15 mins ago</div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 1rem; background: var(--surface-light); border-radius: var(--radius);">
+                                    <div>
+                                        <div style="font-weight: 600;">Merch order #4092</div>
+                                        <div style="font-size: 0.875rem; color: #A0A0A0;">Official Home Jersey (M)</div>
+                                    </div>
+                                    <div style="color: #A0A0A0; font-size: 0.875rem;">1 hour ago</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card">
+                            <div class="section-header">
+                                <h2 class="section-title">Quick Actions</h2>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <button class="btn-primary" style="padding: 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;" onclick="app.setAdminView('matches')">
+                                    <span style="font-size: 1.5rem;">📅</span>
+                                    <span>Schedule Match</span>
+                                </button>
+                                <button class="btn-primary" style="padding: 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;" onclick="app.setAdminView('tickets')">
+                                    <span style="font-size: 1.5rem;">📷</span>
+                                    <span>Scan Tickets</span>
+                                </button>
+                                <button class="btn-primary" style="padding: 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;" onclick="app.setAdminView('roster')">
+                                    <span style="font-size: 1.5rem;">👥</span>
+                                    <span>Update Roster</span>
+                                </button>
+                                <button class="btn-primary" style="padding: 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                                    <span style="font-size: 1.5rem;">📢</span>
+                                    <span>Send Announcement</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Roster -->
+                <div id="admin-roster" class="hidden">
+                    <div class="section-card">
+                        <div class="section-header" style="justify-content: space-between;">
+                            <h2 class="section-title">Team Roster Management</h2>
+                            <button class="btn-primary" style="padding: 0.5rem 1rem;">+ Add Player</button>
+                        </div>
+                        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid #333; color: #A0A0A0;">
+                                    <th style="padding: 1rem;">Player Name</th>
+                                    <th style="padding: 1rem;">Position</th>
+                                    <th style="padding: 1rem;">Rating</th>
+                                    <th style="padding: 1rem;">Status</th>
+                                    <th style="padding: 1rem; text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #222;">
+                                    <td style="padding: 1rem; font-weight: 600;">J. Smith</td>
+                                    <td style="padding: 1rem; color: var(--primary);">FWD</td>
+                                    <td style="padding: 1rem;">88</td>
+                                    <td style="padding: 1rem;"><span style="background: rgba(46, 204, 113, 0.2); color: #2ecc71; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">Active</span></td>
+                                    <td style="padding: 1rem; text-align: right;">
+                                        <button style="background: transparent; border: 1px solid #444; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer;">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #222;">
+                                    <td style="padding: 1rem; font-weight: 600;">R. White</td>
+                                    <td style="padding: 1rem; color: var(--primary);">MID</td>
+                                    <td style="padding: 1rem;">90</td>
+                                    <td style="padding: 1rem;"><span style="background: rgba(46, 204, 113, 0.2); color: #2ecc71; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">Active</span></td>
+                                    <td style="padding: 1rem; text-align: right;">
+                                        <button style="background: transparent; border: 1px solid #444; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer;">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #222;">
+                                    <td style="padding: 1rem; font-weight: 600;">D. Clark</td>
+                                    <td style="padding: 1rem; color: var(--primary);">DEF</td>
+                                    <td style="padding: 1rem;">86</td>
+                                    <td style="padding: 1rem;"><span style="background: rgba(231, 76, 60, 0.2); color: #e74c3c; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">Injured</span></td>
+                                    <td style="padding: 1rem; text-align: right;">
+                                        <button style="background: transparent; border: 1px solid #444; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer;">Edit</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Admin Matches -->
+                <div id="admin-matches" class="hidden">
+                    <div class="section-card">
+                        <div class="section-header" style="justify-content: space-between;">
+                            <h2 class="section-title">Match Management</h2>
+                            <button class="btn-primary" style="padding: 0.5rem 1rem;">+ New Match</button>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div style="background: var(--surface-light); border-radius: var(--radius); padding: 1.5rem; border: 1px solid #333; display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <div style="font-size: 0.875rem; color: var(--primary); font-weight: 600; margin-bottom: 0.5rem;">Sat, Oct 14 • 15:00</div>
+                                    <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem;">Badgefinda FC vs. City Rivals</div>
+                                    <div style="font-size: 0.875rem; color: #A0A0A0;">Main Stadium • Tickets Sold: 4,500/5,000</div>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button style="background: transparent; border: 1px solid #444; color: white; padding: 0.5rem 1rem; border-radius: var(--radius); cursor: pointer;">Edit</button>
+                                    <button style="background: rgba(231, 76, 60, 0.2); border: 1px solid #e74c3c; color: #e74c3c; padding: 0.5rem 1rem; border-radius: var(--radius); cursor: pointer;">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Ticket Scanner -->
+                <div id="admin-tickets" class="hidden">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; height: calc(100vh - 150px);">
+                        <div class="section-card" style="display: flex; flex-direction: column;">
+                            <div class="section-header">
+                                <h2 class="section-title">QR Scanner</h2>
+                            </div>
+                            <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: black; border-radius: var(--radius); position: relative; overflow: hidden; border: 2px solid #333;">
+                                <!-- Mock Camera View -->
+                                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(rgba(0,255,0,0.1) 0%, transparent 50%, rgba(0,255,0,0.1) 100%); opacity: 0.5; pointer-events: none;"></div>
+
+                                <!-- Scanner Reticle -->
+                                <div style="width: 250px; height: 250px; border: 2px solid rgba(255,255,255,0.2); position: relative;">
+                                    <!-- Corners -->
+                                    <div style="position: absolute; top: -2px; left: -2px; width: 30px; height: 30px; border-top: 4px solid var(--primary); border-left: 4px solid var(--primary);"></div>
+                                    <div style="position: absolute; top: -2px; right: -2px; width: 30px; height: 30px; border-top: 4px solid var(--primary); border-right: 4px solid var(--primary);"></div>
+                                    <div style="position: absolute; bottom: -2px; left: -2px; width: 30px; height: 30px; border-bottom: 4px solid var(--primary); border-left: 4px solid var(--primary);"></div>
+                                    <div style="position: absolute; bottom: -2px; right: -2px; width: 30px; height: 30px; border-bottom: 4px solid var(--primary); border-right: 4px solid var(--primary);"></div>
+
+                                    <!-- Scan Line -->
+                                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--primary); box-shadow: 0 0 10px var(--primary); animation: scan 2s infinite linear;"></div>
+                                </div>
+                                <div style="margin-top: 2rem; color: #A0A0A0; font-size: 0.875rem;">Position QR code within frame</div>
+
+                                <button class="btn-primary" style="margin-top: 2rem; padding: 0.75rem 2rem;" onclick="app.simulateScan()">Simulate Scan</button>
+                            </div>
+                        </div>
+
+                        <div class="section-card" style="display: flex; flex-direction: column;">
+                            <div class="section-header">
+                                <h2 class="section-title">Scan Result</h2>
+                            </div>
+                            <div id="scan-result" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #A0A0A0;">
+                                <div style="font-size: 4rem; margin-bottom: 1rem;">📱</div>
+                                <div>Waiting for scan...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
 
     <script>
-        // Updated JavaScript for the landing page to connect with Google Sheets
-// Replace the existing script section in your HTML with this code
 
-// Replace this with your actual Google Apps Script Web App URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-';
+        const fantasyPlayers = [
+            { id: 'p1', name: 'J. Smith', pos: 'FWD', rating: 88 },
+            { id: 'p2', name: 'A. Davis', pos: 'FWD', rating: 85 },
+            { id: 'p3', name: 'M. Johnson', pos: 'FWD', rating: 82 },
+            { id: 'p4', name: 'R. White', pos: 'MID', rating: 90 },
+            { id: 'p5', name: 'C. Brown', pos: 'MID', rating: 84 },
+            { id: 'p6', name: 'K. Lee', pos: 'MID', rating: 79 },
+            { id: 'p7', name: 'T. Harris', pos: 'MID', rating: 81 },
+            { id: 'p8', name: 'D. Clark', pos: 'DEF', rating: 86 },
+            { id: 'p9', name: 'E. Lewis', pos: 'DEF', rating: 83 },
+            { id: 'p10', name: 'S. Walker', pos: 'DEF', rating: 80 },
+            { id: 'p11', name: 'B. Hall', pos: 'DEF', rating: 77 },
+            { id: 'p12', name: 'P. Allen', pos: 'GK', rating: 89 },
+            { id: 'p13', name: 'G. Young', pos: 'GK', rating: 75 },
+            { id: 'p14', name: 'L. King', pos: 'FWD', rating: 80 },
+            { id: 'p15', name: 'M. Wright', pos: 'MID', rating: 82 }
+        ];
 
-// Email collection system that sends to Google Sheets
-class GoogleSheetsEmailCollector {
-    constructor() {
-        this.init();
-    }
+        let draggedPlayerId = null;
 
-    async sendToGoogleSheets(email, source = 'hero') {
-        try {
-            const response = await fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: email,
-                    source: source,
-                    timestamp: new Date().toISOString(),
-                    website: window.location.hostname
-                })
-            });
+        const app = {
+            views: ['landing', 'fan', 'admin'],
+            currentView: 'landing',
 
-            const result = await response.json();
-            
-            if (result.success) {
-                console.log('✅ Email saved to Google Sheets:', result.message);
-                return { success: true, isDuplicate: result.isDuplicate };
-            } else {
-                throw new Error(result.message);
-            }
-        } catch (error) {
-            console.error('❌ Error saving to Google Sheets:', error);
-            // Fallback: save to localStorage
-            this.saveToLocalStorage(email);
-            return { success: true, isOffline: true };
-        }
-    }
+            init() {
+                this.render();
 
-    saveToLocalStorage(email) {
-        try {
-            const emails = JSON.parse(localStorage.getItem('badgefinda_emails') || '[]');
-            if (!emails.includes(email)) {
-                emails.push({
-                    email: email,
-                    timestamp: new Date().toISOString(),
-                    source: 'offline'
+                document.getElementById('roster-filter').addEventListener('change', () => this.renderRoster());
+                this.updateFormation();
+            },
+
+            setRole(role) {
+                this.currentView = role;
+                this.render();
+            },
+
+
+            setAdminView(viewId) {
+                const views = ['overview', 'roster', 'matches', 'tickets'];
+                views.forEach(v => {
+                    document.getElementById(`admin-${v}`).classList.add('hidden');
+                    document.getElementById(`nav-admin-${v}`).classList.remove('active');
                 });
-                localStorage.setItem('badgefinda_emails', JSON.stringify(emails));
-            }
-        } catch (error) {
-            console.log('Local storage not available');
-        }
-    }
+                document.getElementById(`admin-${viewId}`).classList.remove('hidden');
+                document.getElementById(`nav-admin-${viewId}`).classList.add('active');
+            },
 
-    async handleSubmission(email, form) {
-        const submitBtn = form.querySelector('.submit-btn');
-        const btnText = form.querySelector('.btn-text');
-        const loading = form.querySelector('.loading');
-        const successMessage = form.parentElement.querySelector('.success-message');
-        const emailInput = form.querySelector('.email-input');
+            simulateScan() {
+                const result = document.getElementById('scan-result');
+                result.innerHTML = `
+                    <div style="width: 80px; height: 80px; background: #2ecc71; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white; margin-bottom: 1.5rem; box-shadow: 0 0 20px rgba(46, 204, 113, 0.4);">
+                        ✓
+                    </div>
+                    <h3 style="font-size: 1.5rem; color: #2ecc71; margin-bottom: 0.5rem;">Valid Ticket</h3>
+                    <div style="font-size: 1.125rem; font-weight: 600; margin-bottom: 2rem;">John Doe</div>
 
-        // Determine source based on form location
-        let source = 'hero';
-        if (form.id === 'emailForm2') source = 'final-cta';
+                    <div style="width: 100%; background: var(--surface-light); border-radius: var(--radius); padding: 1.5rem; text-align: left; border: 1px solid #333;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <div>
+                                <div style="font-size: 0.75rem; color: #A0A0A0;">Match</div>
+                                <div style="font-weight: 600;">vs. City Rivals</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.75rem; color: #A0A0A0;">Date</div>
+                                <div style="font-weight: 600;">Sat, Oct 14</div>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; padding-top: 1rem; border-top: 1px dashed #444;">
+                            <div>
+                                <div style="font-size: 0.75rem; color: #A0A0A0;">Gate</div>
+                                <div style="font-weight: 700; color: var(--primary);">B</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.75rem; color: #A0A0A0;">Block</div>
+                                <div style="font-weight: 700; color: var(--primary);">114</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.75rem; color: #A0A0A0;">Seat</div>
+                                <div style="font-weight: 700; color: var(--primary);">42</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-primary" style="margin-top: 2rem; width: 100%;" onclick="document.getElementById('scan-result').innerHTML = '<div style=\'font-size: 4rem; margin-bottom: 1rem;\'>📱</div><div>Waiting for scan...</div>'">Scan Next</button>
+                `;
+            },
 
-        // Show loading
-        btnText.style.display = 'none';
-        loading.classList.add('active');
-        submitBtn.disabled = true;
+            setFanView(viewId) {
+                const views = ['overview', 'matches', 'fantasy', 'merch', 'leaderboards'];
+                views.forEach(v => {
+                    document.getElementById(`fan-${v}`).classList.add('hidden');
+                    document.getElementById(`nav-fan-${v}`).classList.remove('active');
+                });
+                document.getElementById(`fan-${viewId}`).classList.remove('hidden');
+                document.getElementById(`nav-fan-${viewId}`).classList.add('active');
+            },
 
-        try {
-            // Send to Google Sheets
-            const result = await this.sendToGoogleSheets(email, source);
-
-            // Show appropriate success message
-            if (result.isDuplicate) {
-                successMessage.innerHTML = '✓ You\'re already on our list! Thanks for your enthusiasm!';
-            } else if (result.isOffline) {
-                successMessage.innerHTML = '✓ Email saved! We\'ll sync it when connection is restored.';
-            } else {
-                successMessage.innerHTML = '✓ Perfect! You\'re now on our waitlist for early access!';
-            }
-
-            successMessage.classList.add('show');
-            emailInput.value = '';
-
-            // Add celebration effect for new emails
-            if (!result.isDuplicate) {
-                this.createCelebration();
-            }
-
-        } catch (error) {
-            successMessage.innerHTML = '⚠️ Something went wrong. Please try again.';
-            successMessage.style.background = '#ffe6e6';
-            successMessage.style.borderColor = '#ff6b6b';
-            successMessage.classList.add('show');
-        }
-
-        // Hide loading
-        loading.classList.remove('active');
-
-        // Add this for testing
-        if (window.location.hostname === 'localhost') {
-            console.log('Testing mode - emails will still save to sheets');
-        }
-
-        // Reset form after delay
-        setTimeout(() => {
-            btnText.style.display = 'inline';
-            successMessage.classList.remove('show');
-            successMessage.style.background = '';
-            successMessage.style.borderColor = '';
-            submitBtn.disabled = false;
-        }, 4000);
-    }
-
-    createCelebration() {
-        // Create simple celebration animation
-        const colors = ['#f1c40f', '#f39c12', '#e74c3c', '#3498db'];
-        
-        for (let i = 0; i < 12; i++) {
-            const confetti = document.createElement('div');
-            confetti.style.position = 'fixed';
-            confetti.style.left = Math.random() * 100 + '%';
-            confetti.style.top = '-10px';
-            confetti.style.width = '8px';
-            confetti.style.height = '8px';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.borderRadius = '50%';
-            confetti.style.pointerEvents = 'none';
-            confetti.style.zIndex = '10000';
-            confetti.style.animation = `confettiFall ${2 + Math.random() * 2}s linear forwards`;
-            
-            document.body.appendChild(confetti);
-            
-            setTimeout(() => confetti.remove(), 4000);
-        }
-    }
-
-    init() {
-        const forms = document.querySelectorAll('#emailForm, #emailForm2');
-        forms.forEach(form => {
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const email = form.querySelector('.email-input').value.trim();
-                if (email && this.validateEmail(email)) {
-                    await this.handleSubmission(email, form);
-                } else {
-                    alert('Please enter a valid email address');
-                }
-            });
-        });
-    }
-
-    validateEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-}
-
-// Counter animation
-function animateCounters() {
-    const counters = document.querySelectorAll('.stat-number');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const counter = entry.target;
-                const target = parseInt(counter.getAttribute('data-target'));
-                const increment = target / 30;
-                let current = 0;
-                
-                const updateCounter = () => {
-                    if (current < target) {
-                        current += increment;
-                        counter.textContent = Math.floor(current);
-                        requestAnimationFrame(updateCounter);
-                    } else {
-                        counter.textContent = target;
+            render() {
+                this.views.forEach(view => {
+                    const el = document.getElementById(`view-${view}`);
+                    if (el) {
+                        if (view === this.currentView) {
+                            el.classList.remove('hidden');
+                        } else {
+                            el.classList.add('hidden');
+                        }
                     }
-                };
-                
-                updateCounter();
-                observer.unobserve(counter);
-            }
-        });
-    }, { threshold: 0.5 });
-    
-    counters.forEach(counter => observer.observe(counter));
-}
-
-// Add confetti animation CSS
-const confettiCSS = `
-@keyframes confettiFall {
-    to {
-        transform: translateY(100vh) rotate(720deg);
-        opacity: 0;
-    }
-}
-`;
-
-const style = document.createElement('style');
-style.textContent = confettiCSS;
-document.head.appendChild(style);
-
-// Initialize everything when DOM loads
-document.addEventListener('DOMContentLoaded', () => {
-    // Check if Google Script URL is configured
-    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbw1JMJnraFC_hCTQFpPll6lU8T9GiomXQo9byc_Y02bMJtEzDfzQsqma4naidin4U9ZYg/exec
-') {
-        console.warn('⚠️ Please update GOOGLE_SCRIPT_URL with your actual Google Apps Script URL');
-    }
-    
-    new GoogleSheetsEmailCollector();
-    animateCounters();
-
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
                 });
+            },
+
+            updateFormation() {
+                const formation = document.getElementById('formation-select').value;
+                const parts = formation.split('-');
+
+                const rowFwd = document.getElementById('row-fwd');
+                const rowMid = document.getElementById('row-mid');
+                const rowDef = document.getElementById('row-def');
+
+                // Keep players and push back to bench
+                document.querySelectorAll('.player-slot .player-card').forEach(c => c.remove());
+
+                this.renderSlots(rowFwd, parseInt(parts[2]), 'FWD');
+                this.renderSlots(rowMid, parseInt(parts[1]), 'MID');
+                this.renderSlots(rowDef, parseInt(parts[0]), 'DEF');
+
+                // GK is static
+                this.setupDragAndDrop();
+                this.renderRoster();
+            },
+
+            renderSlots(container, count, pos) {
+                container.innerHTML = '';
+                for (let i = 0; i < count; i++) {
+                    const slot = document.createElement('div');
+                    slot.className = 'player-slot';
+                    slot.dataset.pos = pos;
+                    container.appendChild(slot);
+                }
+            },
+
+            renderRoster() {
+                const list = document.getElementById('roster-list');
+                const filter = document.getElementById('roster-filter').value;
+                
+                list.innerHTML = '';
+                
+                const onPitchIds = Array.from(document.querySelectorAll('.player-slot .player-card'))
+                                       .map(card => card.dataset.id);
+
+                const availablePlayers = fantasyPlayers.filter(p => !onPitchIds.includes(p.id));
+
+                availablePlayers.forEach(p => {
+                    if (filter !== 'ALL' && p.pos !== filter) return;
+
+                    const div = document.createElement('div');
+                    div.className = 'roster-item';
+                    div.draggable = true;
+                    div.dataset.id = p.id;
+                    div.dataset.pos = p.pos;
+                    div.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <div style="font-size: 0.75rem; font-weight: 700; color: var(--primary); width: 24px;">${p.pos}</div>
+                            <div>${p.name}</div>
+                        </div>
+                        <div style="font-weight: 700;">${p.rating}</div>
+                    `;
+
+                    div.addEventListener('dragstart', (e) => {
+                        draggedPlayerId = p.id;
+                        e.dataTransfer.setData('text/plain', p.id);
+                        setTimeout(() => div.classList.add('dragging'), 0);
+                    });
+
+                    div.addEventListener('dragend', () => {
+                        div.classList.remove('dragging');
+                        draggedPlayerId = null;
+                    });
+
+                    list.appendChild(div);
+                });
+            },
+
+            setupDragAndDrop() {
+                const slots = document.querySelectorAll('.player-slot');
+
+                slots.forEach(slot => {
+                    slot.addEventListener('dragover', e => {
+                        e.preventDefault();
+                        slot.classList.add('drag-over');
+                    });
+
+                    slot.addEventListener('dragleave', e => {
+                        slot.classList.remove('drag-over');
+                    });
+
+                    slot.addEventListener('drop', e => {
+                        e.preventDefault();
+                        slot.classList.remove('drag-over');
+
+                        const playerId = e.dataTransfer.getData('text/plain');
+                        if (!playerId) return;
+
+                        const player = fantasyPlayers.find(p => p.id === playerId);
+                        if (!player) return;
+
+                        if (player.pos !== slot.dataset.pos) {
+                            slot.style.borderColor = '#FF4444';
+                            setTimeout(() => slot.style.borderColor = '', 1000);
+                            return;
+                        }
+
+                        if (slot.querySelector('.player-card')) {
+                            slot.innerHTML = '';
+                        }
+
+                        const existingCard = document.querySelector(`.player-card[data-id="${playerId}"]`);
+                        if (existingCard) {
+                            existingCard.remove();
+                        }
+
+                        const card = document.createElement('div');
+                        card.className = 'player-card';
+                        card.draggable = true;
+                        card.dataset.id = player.id;
+                        card.innerHTML = `
+                            <div class="p-pos">${player.pos}</div>
+                            <div class="p-rating">${player.rating}</div>
+                            <div class="p-name">${player.name.split(' ')[0]}</div>
+                        `;
+
+                        card.addEventListener('dragstart', (e) => {
+                            draggedPlayerId = player.id;
+                            e.dataTransfer.setData('text/plain', player.id);
+                            setTimeout(() => card.classList.add('dragging'), 0);
+                        });
+
+                        card.addEventListener('dragend', () => {
+                            card.classList.remove('dragging');
+                            draggedPlayerId = null;
+                        });
+
+                        slot.appendChild(card);
+                        this.renderRoster();
+                    });
+                });
+
+                const rosterList = document.getElementById('roster-list');
+                if (!rosterList.dataset.dropSetup) {
+                    rosterList.addEventListener('dragover', e => {
+                        e.preventDefault();
+                    });
+                    rosterList.addEventListener('drop', e => {
+                        e.preventDefault();
+                        const playerId = e.dataTransfer.getData('text/plain');
+                        if (!playerId) return;
+
+                        const existingCard = document.querySelector(`.player-card[data-id="${playerId}"]`);
+                        if (existingCard) {
+                            existingCard.remove();
+                            this.renderRoster();
+                        }
+                    });
+                    rosterList.dataset.dropSetup = 'true';
+                }
             }
-        });
-    });
-});
+        };
 
-// Performance optimizations
-let ticking = false;
-function requestTick() {
-    if (!ticking) {
-        requestAnimationFrame(() => {
-            ticking = false;
-        });
-        ticking = true;
-    }
-}
-
-window.addEventListener('scroll', requestTick, { passive: true });
-window.addEventListener('resize', () => {
-    clearTimeout(window.resizeTimeout);
-    window.resizeTimeout = setTimeout(() => {
-        // Handle any resize optimizations
-    }, 250);
-}, { passive: true });    
+        document.addEventListener('DOMContentLoaded', () => app.init());
     </script>
 </body>
 </html>
